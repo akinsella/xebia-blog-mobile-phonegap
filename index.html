@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+
+        <meta charset="utf-8" />
+        <title>Xebia Blog Mobile</title>
+
+        <link rel="shortcut icon" type="image/png" href="favicon.png" />
+
+        <link rel="stylesheet" href="assets/jquery.mobile-1.0.1/jquery.mobile.structure-1.0.1.min.css" />
+        <link rel="stylesheet" href="assets/css/mobile.css" />
+        <link rel="stylesheet" href="assets/css/themes/xebia/xebia.css" />
+
+        <script src="assets/javascript/xebia-mobile-const.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/xebia-mobile-util.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/xebia-mobile-main.js" type="text/javascript" charset="utf-8"></script>
+        
+        <script src="assets/javascript/phonegap-1.3.0.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/ajax.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/localStorage.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/security.js" type="text/javascript" charset="utf-8"></script>
+ 
+        <script src="assets/javascript/date-format.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/jquery-1.6.4.js" type="text/javascript"  charset="utf-8"></script>
+        <script src="assets/javascript/base64.js" type="text/javascript"  charset="utf-8"></script>
+ 
+        <script type="text/javascript" charset="utf-8">
+          document.addEventListener("deviceready", function() {
+              // Write some code
+          }, true);
+          
+          $(document).bind("mobileinit", function() {
+              onMobileInit();
+          });
+        </script>
+
+        <script src="assets/jquery.mobile-1.0.1/jquery.mobile-1.0.1.min.js" type="text/javascript"  charset="utf-8"></script>
+ 
+    </head>
+    <body>
+
+
+            <!-- home page -->
+            <div align="center" id="homePage" data-role="page" class="home" data-add-back-btn="true">
+                <div id="homeheader">
+                    <h1 id="logo"><img class="logo" src="assets/image/logo-xebia.png" alt="jQuery Mobile Framework" /></h1>
+                    <p id="version">Alpha Release</p>
+                </div>
+                <div data-role="content" data-theme="a">
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <a href="#recentPostPage" class="silver large awesome" data-transition="slide">
+                                <img class="menu-img" src="assets/image/menu/34-recent.png" />
+                                <p class="menu-btn-text">Recent posts</p>
+                            </a>
+                        </div>
+                        <div class="ui-block-b">
+                            <a href="#categoryPage" class="silver large awesome" data-transition="slide">
+                                <img class="menu-img" src="assets/image/menu/33-category.png" />
+                                <p class="menu-btn-text">Categories</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <a href="#tagPage" class="silver large awesome" data-transition="slide">
+                                <img class="menu-img" src="assets/image/menu/15-tags.png" />
+                                <p class="menu-btn-text">Tags</p>
+                            </a>
+                        </div>
+                        <div class="ui-block-b">
+                            <a href="#authorPage" class="silver large awesome" data-transition="slide">
+                                <img class="menu-img" src="assets/image/menu/112-author.png" />
+                                <p class="menu-btn-text">Authors</p>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="ui-grid-a">
+                        <div class="ui-block-a">
+                            <a href="#aboutPage" class="silver large awesome" data-transition="slide">
+                                <img class="menu-img" src="assets/image/menu/123-about.png" />
+                                <p class="menu-btn-text">About</p>
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Recent posts page -->
+            <div align="center" id="recentPostPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Recent Posts</h1>
+                </div>
+                <div data-role="content">
+                    <ul id="recentPosts" data-role="listview" data-theme="a">
+                        <h2 style="text-align: center;">Loading recent posts ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Categories page -->
+            <div align="center" id="categoryPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Categories</h1>
+                </div>
+                <div data-role="content">
+                    <ul id="categories" data-role="listview" data-theme="a">
+                        <h2 style="text-align: center;">Loading categories ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Tags page -->
+            <div align="center" id="tagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Tags</h1>
+                </div>
+                <div data-role="content">
+                    <ul id="tags" data-role="listview" data-theme="a" data-divider-theme="a" data-add-back-btn="true">
+                        <h2 style="text-align: center;">Loading tags ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Authors page -->
+            <div align="center" id="authorPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Authors</h1>
+                </div>
+                <div data-role="content">
+                    <ul id="authors" data-role="listview" data-theme="a">
+                        <h2 style="text-align: center;">Loading authors ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Posts By Category page -->
+            <div align="center" id="postByCategoryPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Posts in '<span id="postByCategoryTitleCategory"></span>'</h1>
+                    <div class="navbar" id="postByCategoryPageNav">
+                        <div class="navbar-left" id="postByCategoryPageNavPrev"><a href="#">Prev</a></div>
+                        <div class="navbar-right" id="postByCategoryPageNavNext"><a href="#">Next</a></div>
+                        <span class="navbar-title" id="postByCategoryPageNavTitle">Page - of -</span>
+                    </div>
+                </div>
+                <div data-role="content">
+                    <ul id="postByCategory" data-role="listview">
+                        <h2 style="text-align: center;">Loading category posts ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Posts By Tag page -->
+            <div align="center" id="postByTagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Posts tagged '<span id="postByTagTitleTag"></span>'</h1>
+                    <div class="navbar" id="postByTagPageNav">
+                        <div class="navbar-left" id="postByTagPageNavPrev"><a href="#">Prev</a></div>
+                        <div class="navbar-right" id="postByTagPageNavNext"><a href="#">Next</a></div>
+                        <span class="navbar-title" id="postByTagPageNavTitle">Page - of -</span>
+                    </div>
+                </div>
+                <div data-role="content">
+                    <ul id="postByTag" data-role="listview">
+                        <h2 style="text-align: center;">Loading tag posts ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Posts By Author page -->
+            <div align="center" id="postByAuthorPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1><span id="postByAuthorTitleAuthor"></span>'s posts</h1>
+                    <div class="navbar" id="postByAuthorPageNav">
+                        <div class="navbar-left" id="postByAuthorPageNavPrev"><a href="#">Prev</a></div>
+                        <div class="navbar-right" id="postByAuthorPageNavNext"><a href="#">Next</a></div>
+                        <span class="navbar-title" id="postByAuthorPageNavTitle">Page - of -</span>
+                    </div>
+                </div>
+                <div data-role="content">
+                    <ul id="postByAuthor" data-role="listview">
+                        <h2 style="text-align: center;">Loading author posts ...</h2>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Post detail page -->
+            <div align="center" id="postDetailPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1 id="postDetailTitle">Post Details</h1>
+                    <a id="postDetailUrl" href="#insightPage" data-theme="a" data-icon="arrow-r" class="ui-btn-right">View</a>
+                </div>
+                <div id="postContent" data-role="content" align="left">
+                    <div id="postAuthorDetails">
+                        <div id="postDetailDate"></div>
+                        <p>Article published by <span id="postDetailAuthor"></span></p>
+                     </div>
+                     <div id="postCategories">
+                        <p>Categories: <span id="postCategoriesItems" class="postCategories"></span></p>
+                    </div>
+                    <div id="postTags">
+                        <p>Tags: <span id="postTagsItems" class="postTags"></span></p>
+                    </div>
+                    <div id="postExcerpt">
+                        <p id="postExcerptTitle">Excerpt:</p>
+                        <p id="postExcerptContent"></p>
+                    </div>
+
+                    <div id="postComments">
+                        <p id="postCommentsTitle">Comments (<span id="postCommentsCount"></span>)</p>
+                        <div id="postCommentsList"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Author detail page -->
+            <div align="center" id="authorDetailPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1 id="authorName">Author Details</h1>
+                </div>
+                <div id="authorDetails" data-role="content">
+
+                </div>
+            </div>
+
+            <!-- Insight page -->
+            <div align="center" id="insightPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1 id="insightTitle">Insight</h1>
+                    <a id="insightUrl" href="#" data-theme="a" data-icon="arrow-r" class="ui-btn-right">View</a>
+                </div>
+                <div data-role="content">
+                    <div id="insightContent" align="left"></div>
+                </div>
+            </div>
+
+            <!-- About page -->
+            <div align="center" id="aboutPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>About</h1>
+                </div>
+                <div id="aboutHeader">
+                    <h1 id="logoAbout">
+                        <img src="assets/image/logo-xebia.png" alt="jQuery Mobile Framework" class="logo" />
+                    </h1>
+                </div>
+                <div data-role="content" data-theme="a">
+                    <p>Author: Alexis Kinsella</p>
+                    <p>Web site: <a href="http://blog.xebia.fr">http://blog.xebia.fr</a></p>
+                    <p>E-Mail : <a href="mailto:akinsella@xebia.fr">akinsella@xebia.fr</a></p>
+                    <br>
+                    <p><a href="#homePage">Back to home</a></p>
+                </div>
+            </div>
+
+    </body>
+
+</html>

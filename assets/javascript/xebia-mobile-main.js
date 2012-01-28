@@ -27,21 +27,21 @@ function onRecentPostPageShow() {
 function onPostByAuthorPageShow() {
     $('#postByAuthorPageNav').hide();
 
-    authorId = parseInt(getParameterByName("author"));
-    page = parseInt(getParameterByName("page"));
-    pageSize = parseInt(getParameterByName("count"));
+    var authorId = parseInt(getParameterByName("author"));
+    var page = parseInt(getParameterByName("page"));
+    var pageSize = parseInt(getParameterByName("count"));
 
     if (isNaN(page)) { page = 1; }
     if (isNaN(pageSize)) { pageSize = DEFAULT_ITEM_BY_PAGE; }
 
-    loadPostsContent('#postByAuthor', getFullUrl('/get_author_posts/?author_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
+    loadPostsContent('#postByAuthor', getFullUrl('/get_author_posts/?exclude=slug,description,parent,nickname,first_name,last_name,url&author_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
         function(data) {
             /* Set title */
             $('#postByAuthorTitleAuthor').text(data.author.name);
 
             /* page = data.page; */
-            pages = data.pages;
-            results = data.count;
+            var pages = data.pages;
+            var results = data.count;
 
             if (page > 1) {
                 $('#postByAuthorPageNavPrev').show();
@@ -75,21 +75,21 @@ function onPostByAuthorPageShow() {
 function onPostByCategoryPageShow() {
     $('#postByCategoryPageNav').hide();
 
-    categoryId = parseInt(getParameterByName("category"));
-    page = parseInt(getParameterByName("page"));
-    pageSize = parseInt(getParameterByName("count"));
+    var categoryId = parseInt(getParameterByName("category"));
+    var page = parseInt(getParameterByName("page"));
+    var pageSize = parseInt(getParameterByName("count"));
 
     if (isNaN(page)) { page = 1; }
     if (isNaN(pageSize)) { pageSize = DEFAULT_ITEM_BY_PAGE; }
 
-    loadPostsContent('#postByCategory', getFullUrl('/get_category_posts/?category_id=' + categoryId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
+    loadPostsContent('#postByCategory', getFullUrl('/get_category_posts/?exclude=slug,description,parent&category_id=' + categoryId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
         function(data) {
             /* Set title */
             $('#postByCategoryTitleCategory').text(data.category.title);
 
             /* page = data.page; */
-            pages = data.pages;
-            results = data.count;
+            var pages = data.pages;
+            var results = data.count;
 
             if (page > 1) {
                 $('#postByCategoryPageNavPrev').show();
@@ -123,21 +123,21 @@ function onPostByCategoryPageShow() {
 function onPostByTagPageShow() {
     $('#postByTagPageNav').hide();
 
-    authorId = parseInt(getParameterByName("tag"));
-    page = parseInt(getParameterByName("page"));
-    pageSize = parseInt(getParameterByName("count"));
+    var authorId = parseInt(getParameterByName("tag"));
+    var page = parseInt(getParameterByName("page"));
+    var pageSize = parseInt(getParameterByName("count"));
 
     if (isNaN(page)) { page = 1; }
     if (isNaN(pageSize)) { pageSize = DEFAULT_ITEM_BY_PAGE; }
 
-    loadPostsContent('#postByTag', getFullUrl('/get_tag_posts/?tag_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
+    loadPostsContent('#postByTag', getFullUrl('/get_tag_posts/?exclude=slug,description,parent&tag_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
         function(data) {
             /* Set title */
             $('#postByTagTitleTag').text(data.tag.title);
 
             /* page = data.page; */
-            pages = data.pages;
-            results = data.count;
+            var pages = data.pages;
+            var results = data.count;
 
             if (page > 1) {
                 $('#postByTagPageNavPrev').show();
@@ -181,7 +181,7 @@ function onAuthorPageShow() {
 };
 
 function onPostDetailPageShow() {
-    postId = getParameterByName("post");
+    var postId = getParameterByName("post");
     loadPostDetailContent(getFullUrl('/get_post/?post_id=' + postId + '&callback=?'));
     fixLinkIssue();
 };
@@ -199,8 +199,8 @@ function loadTagsContent(element, url) {
     $.mobile.showPageLoadingMsg();
     $.getJSON( url, function( data ) {
         $(element).empty();
-        itemsContent = '';
-        tags = $(data.tags).sort(sortTagByName);
+        var itemsContent = '';
+        var tags = $(data.tags).sort(sortTagByName);
         var currentFirstLetter = '';
         $.each(data.tags, function(i, tag) {
             var firstLetter = tag.title.substr(0, 1).toUpperCase();
@@ -226,8 +226,8 @@ function loadCategoriesContent(element, url) {
     $.mobile.showPageLoadingMsg();
     $.getJSON( url, function( data ) {
         $(element).empty();
-        itemsContent = '';
-        categories = $(data.categories).sort(sortCategoryByName);
+        var itemsContent = '';
+        var categories = $(data.categories).sort(sortCategoryByName);
         $.each(categories, function(i, category) {
             var title = '<h3>' + category.title + '</h3>';
             var subtitle = '<p><em>' + category.description + '</em></p>';
@@ -246,8 +246,8 @@ function loadAuthorsContent(element, url) {
     $.mobile.showPageLoadingMsg();
     $.getJSON( url, function( data ) {
         $(element).empty();
-        itemsContent = '';
-        authors = $(data.authors).sort(sortAuthorByName);
+        var itemsContent = '';
+        var authors = $(data.authors).sort(sortAuthorByName);
         $.each(authors, function(i, author) {
             var title = '<h3>' + author.name + '</h3>';
             var link = 'index.html?author=' + author.id + '#postByAuthorPage';
@@ -309,7 +309,7 @@ function loadPostDetailContent(url, postId) {
 
 
         /* Set categories */
-        categories = '';
+        var categories = '';
         $.each(post.categories, function(i, category) {
             categories += '<a href="index.html?category=' + category.id + '#postByCategoryPage" rel="external">' + category.title + '</a>';
             if (i + 1 < post.categories.length) {
@@ -321,7 +321,7 @@ function loadPostDetailContent(url, postId) {
 
 
         /* Set tags */
-        tags = '';
+        var tags = '';
         $.each(post.tags, function(i, tag) {
             tags += '<a href="index.html?tag=' + tag.id + '#postByTagPage" rel="external">' + tag.title + '</a>';
             if (i + 1 < post.tags.length) {
@@ -337,7 +337,7 @@ function loadPostDetailContent(url, postId) {
 
 
         /* Set post comments */
-        itemsContent = '';
+        var itemsContent = '';
 
         $('#postCommentsCount').empty();
         $('#postCommentsCount').append(post.comments.length);
@@ -358,9 +358,9 @@ function loadPostDetailContent(url, postId) {
 
 function loadInsightContent() {
 
-    insightTitle = fetch('insightTitle');
-    insightContent = decodeHtmlEntities(fetch('insightContent'));
-    insightUrl = fetch('insightUrl');
+    var insightTitle = fetch('insightTitle');
+    var insightContent = decodeHtmlEntities(fetch('insightContent'));
+    var insightUrl = fetch('insightUrl');
 
 
     /* Set insight title */

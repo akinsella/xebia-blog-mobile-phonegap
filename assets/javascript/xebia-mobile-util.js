@@ -10,19 +10,17 @@
 
         //URLs starting with www. (without // before it, or it'd re-link the ones done above)
         var replacePattern2 = /(^|[^\/])(www\.[\S]+(\b|$))/gim;
-        var replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
+        replacedText = replacedText.replace(replacePattern2, '$1<a href="http://$2" target="_blank">$2</a>');
 
         //Change email addresses to mailto:: links
         var replacePattern3 = /(\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,6})/gim;
-        var replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
+        replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
         return replacedText;
     }
 
     function decodeHtmlEntities(encodedContent) {
-        var decodedContent = $("<div/>").html(encodedContent).text();
-
-        return decodedContent;
+        return $("<div/>").html(encodedContent).text();
     }
 
     function stripTags(content) {
@@ -61,7 +59,9 @@
     }
 
     function getFullUrl(relativeUrl) {
-        return JSON_API_BASE_URL + relativeUrl;
+        var fullUrl =  JSON_API_BASE_URL + relativeUrl;
+        console.log(fullUrl);
+        return fullUrl;
     }
 
     function getJson(url, successCallback, errorCallback) {

@@ -35,6 +35,15 @@
     <icon src="icons/icon-android-72.png" width="72" height="72"/>
 
 
+    <!-- if a single splash screen is specified it will be used for all platforms.
+        Multiple splash screens are recommended for iOS -->
+    <!-- iOS requires specific dimensions for different devices; classic iPhone
+      screens, Retina displays, and iPad screens -->
+    <gap:splash src="splashes/splash.png"/>
+    <gap:splash src="splashes/retina.png" width="640" height="960"/>
+    <gap:splash src="splashes/ipad-portrait.png" width="768" height="1004"/>
+    <gap:splash src="splashes/ipad-landscape.png" width="1024" height="748"/>
+
 	<!-- <feature name="http://api.phonegap.com/1.0/geolocation"/> -->
 	<feature name="http://api.phonegap.com/1.0/network"/>
 

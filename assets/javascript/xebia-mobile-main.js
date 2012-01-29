@@ -4,6 +4,8 @@
 // ******************************************************************************
 
 function onMobileInit() {
+    $.mobile.defaultPageTransition = 'fade';
+
     $('#homePage').live('pageshow', function(event, ui) { onHomePageShow(); });
     $('#recentPostPage').live('pageshow', function(event, ui){ onRecentPostPageShow(); });
     $('#categoryPage').live('pageshow', function(event, ui){ onCategoryPageShow(); });

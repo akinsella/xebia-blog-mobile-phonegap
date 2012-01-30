@@ -3,6 +3,16 @@
 // * Utils functions
 // ******************************************************************************
 
+    var logContent = new Array();
+
+    function info(log) {
+        console.log(log);
+        if (logContent.length > 1000) {
+            logContent.shift();
+        }
+        logContent.push(log);
+    }
+
     function linkify(inputText) {
         //URLs starting with http://, https://, or ftp://
         var replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
@@ -30,21 +40,9 @@
         return linkify(result);
     }
 
-    function sortAuthorByName(author1, author2) {
-         return author1.name > author2.name ? 1 : -1;
-    }
-
-    function sortTagByName(tag1, tag2) {
-         return tag1.name > tag2.name ? 1 : -1;
-    }
-
-    function sortCategoryByName(cat1, cat2) {
-         return cat1.name > cat2.name ? 1 : -1;
-    }
-
-    function fixLinkIssue() {
+/*    function fixLinkIssue() {
         $('[data-role=content] a').addClass("ui-link");
-    }
+    } */
 
     function getParameterByName( name ) {
         name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
@@ -63,6 +61,26 @@
         console.log(fullUrl);
         return fullUrl;
     }
+
+    function getMilliSeconds() {
+        var d = new Date();
+        return d.getMilliseconds();
+    }
+
+
+    function showInterval(start) {
+        var duration = new Date(new Date() - start + start.getTimezoneOffset() * 60000);
+        var formattedDuration = duration.toString("HH:mm:ss");
+        return formattedDuration + "." + duration.getMilliseconds();
+    }
+
+//    function showInterval(start) {
+//        return showIntervalWithFormat(start, "{MM}:{ss}");
+//    }
+//
+//    function showIntervalWithFormat(start, format) {
+//        return jintervals(new Date() - start, format);
+//    }
 
     function getJson(url, successCallback, errorCallback) {
         $.ajax({

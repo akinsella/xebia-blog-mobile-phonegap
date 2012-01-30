@@ -9,7 +9,7 @@
 
         <link rel="shortcut icon" type="image/png" href="favicon.png" />
 
-        <link rel="stylesheet" href="assets/jquery.mobile-1.0.1/jquery.mobile.structure-1.0.1.min.css" />
+        <link rel="stylesheet" href="assets/jquery.mobile-1.0.1/jquery.mobile.structure-1.0.1.css" />
         <link rel="stylesheet" href="assets/css/mobile.css" />
         <link rel="stylesheet" href="assets/css/themes/xebia/xebia.css" />
 
@@ -25,7 +25,9 @@
         <script src="assets/javascript/date-format.js" type="text/javascript" charset="utf-8"></script>
         <script src="assets/javascript/jquery-1.6.4.js" type="text/javascript"  charset="utf-8"></script>
         <script src="assets/javascript/base64.js" type="text/javascript"  charset="utf-8"></script>
- 
+        <script src="assets/javascript/underscore.js" type="text/javascript"  charset="utf-8"></script>
+        <script src="assets/javascript/date.js" type="text/javascript"  charset="utf-8"></script>
+
         <script type="text/javascript" charset="utf-8">
           document.addEventListener("deviceready", function() {
               // Write some code
@@ -36,7 +38,7 @@
           });
         </script>
 
-        <script src="assets/jquery.mobile-1.0.1/jquery.mobile-1.0.1.min.js" type="text/javascript"  charset="utf-8"></script>
+        <script src="assets/jquery.mobile-1.0.1/jquery.mobile-1.0.1.js" type="text/javascript"  charset="utf-8"></script>
  
     </head>
     <body>
@@ -79,6 +81,12 @@
                     </div>
                     <div class="ui-grid-a">
                         <div class="ui-block-a">
+                            <a href="#logPage" class="silver large awesome">
+                                <img class="menu-img" src="assets/image/menu/96-logs.png" />
+                                <p class="menu-btn-text">Logs</p>
+                            </a>
+                        </div>
+                        <div class="ui-block-b">
                             <a href="#aboutPage" class="silver large awesome">
                                 <img class="menu-img" src="assets/image/menu/123-about.png" />
                                 <p class="menu-btn-text">About</p>
@@ -255,6 +263,20 @@
                     <br>
                     <p><a href="#homePage">Back to home</a></p>
                 </div>
+            </div>
+
+            <!-- Log page -->
+            <div align="center" id="logPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Console log</h1>
+                </div>
+                <div id="logHeader">
+                </div>
+                <div data-role="content">
+                    <ul id="logs" data-role="listview">
+                        <h2 style="text-align: center;">Loading logs ...</h2>
+                    </ul>
+                 </div>
             </div>
 
     </body>

@@ -16,6 +16,7 @@ function onMobileInit() {
     $('#postByTagPage').live('pageshow', function(event, ui) { onPostByTagPageShow(); });
     $('#postByCategoryPage').live('pageshow', function(event, ui) { onPostByCategoryPageShow(); });
     $('#insightPage').live('pageshow', function(event, ui) { onInsightPageShow(); });
+    $('#logPage').live('pageshow', function(event, ui) { onLogPageShow(); });
 }
 
 function onHomePageShow() {
@@ -168,28 +169,32 @@ function onPostByTagPageShow() {
 
             $('#postByTagPageNav').show();
         });
-};
+}
 
 function onCategoryPageShow() {
     loadCategoriesContent('#categories', getFullUrl('/get_category_index/?callback=?'));
-};
+}
 
 function onTagPageShow() {
     loadTagsContent('#tags', getFullUrl('/get_tag_index/?callback=?'));
-};
+}
 
 function onAuthorPageShow() {
     loadAuthorsContent('#authors', getFullUrl('/get_author_index/?callback=?'));
-};
+}
 
 function onPostDetailPageShow() {
     var postId = getParameterByName("post");
     loadPostDetailContent(getFullUrl('/get_post/?post_id=' + postId + '&callback=?'));
     fixLinkIssue();
-};
+}
 
 function onInsightPageShow() {
     loadInsightContent();
+}
+
+function onLogPageShow() {
+    loadLogContent('#logs');
 }
 
 
@@ -198,12 +203,19 @@ function onInsightPageShow() {
 // ******************************************************************************
 
 function loadTagsContent(element, url) {
+    var start = new Date();
+    info("Start loading content: " + showInterval(start) );
     $.mobile.showPageLoadingMsg();
     $.getJSON( url, function( data ) {
+        info("Loaded Json tags content: " + showInterval(start));
         $(element).empty();
         var itemsContent = '';
-        var tags = $(data.tags).sort(sortTagByName);
+
+        info("Sorting tags: " + showInterval(start));
+        var tags = _.sortBy(data.tags, function(tag){ return tag.name; });
+        info("Tags sorted: " + showInterval(start));
         var currentFirstLetter = '';
+        info("Buildong HTML content: " + showInterval(start));
         $.each(data.tags, function(i, tag) {
             var firstLetter = tag.title.substr(0, 1).toUpperCase();
             var currentFirstLetterChanged = firstLetter != currentFirstLetter;
@@ -217,9 +229,14 @@ function loadTagsContent(element, url) {
 
             itemsContent += '<li><a href="' + link + '" rel="external">' + title + bubble + '</a></li>';
         });
+        info("HTML content built: " + showInterval(start));
 
+        info("Append content to HTML: " + showInterval(start));
         $(element).append(itemsContent);
+        info("Content appended to HTML: " + showInterval(start));
+        info("Refreshing HTML List: " + showInterval(start));
         $(element).listview("refresh");
+        info("HTML List Refreshing: " + showInterval(start));
         $.mobile.hidePageLoadingMsg();
     });
 }
@@ -229,7 +246,7 @@ function loadCategoriesContent(element, url) {
     $.getJSON( url, function( data ) {
         $(element).empty();
         var itemsContent = '';
-        var categories = $(data.categories).sort(sortCategoryByName);
+        var categories = _.sortBy(data.categories, function(category){ return category.name; });
         $.each(categories, function(i, category) {
             var title = '<h3>' + category.title + '</h3>';
             var subtitle = '<p><em>' + category.description + '</em></p>';
@@ -249,7 +266,7 @@ function loadAuthorsContent(element, url) {
     $.getJSON( url, function( data ) {
         $(element).empty();
         var itemsContent = '';
-        var authors = $(data.authors).sort(sortAuthorByName);
+        var authors = _.sortBy(data.authors, function(author){ return author.name; });
         $.each(authors, function(i, author) {
             var title = '<h3>' + author.name + '</h3>';
             var link = 'index.html?author=' + author.id + '#postByAuthorPage';
@@ -269,7 +286,7 @@ function loadPostsContent(element, url, callback) {
 
         callback(data);
 
-        itemsContent = '';
+        var itemsContent = '';
         $.each(data.posts, function(i, post) {
             var title = '<h3>' + post.title_plain + '</h3>';
             var subtitle = '<p><em>' + post.date.substr(0, 10) + ' - ' + post.author.name + '</em></p>';
@@ -290,7 +307,7 @@ function loadPostDetailContent(url, postId) {
     $.mobile.showPageLoadingMsg();
     $.getJSON( url, function( data ) {
 
-        post = data.post;
+        var post = data.post;
 
         store('insightTitle', post.title);
         store('insightContent', stripTags(post.content));
@@ -377,3 +394,14 @@ function loadInsightContent() {
     $('#insightUrl').attr("href", insightUrl);
 }
 
+
+function loadLogContent(element) {
+    $(element).empty();
+
+    var itemsContent = '';
+    $.each(logContent, function(i, log) {
+        itemsContent += '<li>' + log + '</li>';
+    });
+    $(element).append(itemsContent);
+    $(element).listview("refresh");
+}

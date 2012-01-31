@@ -10,6 +10,7 @@ function onMobileInit() {
     $('#recentPostPage').live('pageshow', function(event, ui){ onRecentPostPageShow(); });
     $('#categoryPage').live('pageshow', function(event, ui){ onCategoryPageShow(); });
     $('#tagPage').live('pageshow', function(event, ui){ onTagPageShow(); });
+    $('#tagPage').live('beforepageshow', function(event, ui){ onTagBeforePageShow(); });
     $('#authorPage').live('pageshow', function(event, ui){ onAuthorPageShow(); });
     $('#postDetailPage').live('pageshow', function(event, ui) { onPostDetailPageShow(); });
     $('#postByAuthorPage').live('pageshow', function(event, ui) { onPostByAuthorPageShow(); });
@@ -25,7 +26,7 @@ function onHomePageShow() {
 
 function onRecentPostPageShow() {
     loadPostsContent('#recentPosts', getFullUrl('/get_recent_posts/?callback=?'), function(data) { });
-};
+}
 
 function onPostByAuthorPageShow() {
     $('#postByAuthorPageNav').hide();
@@ -73,7 +74,7 @@ function onPostByAuthorPageShow() {
 
             $('#postByAuthorPageNav').show();
         });
-};
+}
 
 function onPostByCategoryPageShow() {
     $('#postByCategoryPageNav').hide();
@@ -121,7 +122,7 @@ function onPostByCategoryPageShow() {
 
             $('#postByCategoryPageNav').show();
         });
-};
+}
 
 function onPostByTagPageShow() {
     $('#postByTagPageNav').hide();
@@ -175,6 +176,12 @@ function onCategoryPageShow() {
     loadCategoriesContent('#categories', getFullUrl('/get_category_index/?callback=?'));
 }
 
+function onTagBeforePageShow() {
+    var page = $( "#tagPage" );
+    var content = page.children( ":jqmData(role=content)" );
+    content.html("");
+}
+
 function onTagPageShow() {
     loadTagsContent('#tags', getFullUrl('/get_tag_index/?callback=?'));
 }
@@ -186,7 +193,6 @@ function onAuthorPageShow() {
 function onPostDetailPageShow() {
     var postId = getParameterByName("post");
     loadPostDetailContent(getFullUrl('/get_post/?post_id=' + postId + '&callback=?'));
-    fixLinkIssue();
 }
 
 function onInsightPageShow() {
@@ -227,15 +233,24 @@ function loadTagsContent(element, url) {
             var bubble = '<span class="ui-li-count">' + tag.post_count + '</span>';
             var link = 'index.html?tag=' + tag.id + '#postByTagPage';
 
-            itemsContent += '<li><a href="' + link + '" rel="external">' + title + bubble + '</a></li>';
+            itemsContent += '<li><a href="' + link + '" rel="external">' + title + bubble + '</a></li>\n';
         });
         info("HTML content built: " + showInterval(start));
 
         info("Append content to HTML: " + showInterval(start));
+        console.log(itemsContent);
         $(element).append(itemsContent);
         info("Content appended to HTML: " + showInterval(start));
         info("Refreshing HTML List: " + showInterval(start));
-        $(element).listview("refresh");
+
+        var page = $( "#tagPage" );
+        // Get the content area element for the page.
+        var content = page.children( ":jqmData(role=content)" );
+
+        content.html('<ul id="postByTag" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul>');
+        content.trigger("create");
+
+
         info("HTML List Refreshing: " + showInterval(start));
         $.mobile.hidePageLoadingMsg();
     });

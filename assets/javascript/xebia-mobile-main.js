@@ -177,9 +177,7 @@ function onCategoryPageShow() {
 }
 
 function onTagBeforePageShow() {
-    var page = $( "#tagPage" );
-    var content = page.children( ":jqmData(role=content)" );
-    content.html("");
+    $( "#tags" ).html("");
 }
 
 function onTagPageShow() {
@@ -221,7 +219,7 @@ function loadTagsContent(element, url) {
         var tags = _.sortBy(data.tags, function(tag){ return tag.name; });
         info("Tags sorted: " + showInterval(start));
         var currentFirstLetter = '';
-        info("Buildong HTML content: " + showInterval(start));
+        info("Building HTML content: " + showInterval(start));
         $.each(data.tags, function(i, tag) {
             var firstLetter = tag.title.substr(0, 1).toUpperCase();
             var currentFirstLetterChanged = firstLetter != currentFirstLetter;
@@ -243,12 +241,26 @@ function loadTagsContent(element, url) {
         info("Content appended to HTML: " + showInterval(start));
         info("Refreshing HTML List: " + showInterval(start));
 
-        var page = $( "#tagPage" );
-        // Get the content area element for the page.
-        var content = page.children( ":jqmData(role=content)" );
 
-        content.html('<ul id="postByTag" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul>');
-        content.trigger("create");
+// Trigger refresh via listview on content generated
+        $(element).listview("refresh");
+
+
+// Trigger create action on content generated
+//        var page = $( "#tagPage" );
+//        var content = page.children( ":jqmData(role=content)" );
+//        content.html('<ul id="postByTag" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul>');
+//        content.trigger("create");
+
+// Generate a page and load it
+//        var pageContent = '<div align="center" id="tagPageTmp" data-role="page" data-theme="a" class="page" data-add-back-btn="true">' +
+//            '<div data-role="header" data-theme="a"><h1>Tags</h1></div>' +
+//            '<div data-role="content"><ul id="postByTagTmp" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul></div>' +
+//        '</div>';
+//        $("body").append(pageContent);
+//        $.mobile.initializePage();
+//        $.mobile.changePage("#tagPageTmp", { transition: "fade", reverse: false, changeHash: false });
+
 
 
         info("HTML List Refreshing: " + showInterval(start));

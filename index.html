@@ -42,8 +42,6 @@
  
     </head>
     <body>
-
-
             <!-- home page -->
             <div align="center" id="homePage" data-role="page" class="home" data-add-back-btn="true">
                 <div id="homeheader">
@@ -115,9 +113,7 @@
                     <h1>Categories</h1>
                 </div>
                 <div data-role="content">
-                    <ul id="categories" data-role="listview" data-theme="a">
-                        <h2 style="text-align: center;">Loading categories ...</h2>
-                    </ul>
+                    <ul id="categories" data-role="listview" data-theme="a"></ul>
                 </div>
             </div>
 
@@ -127,6 +123,7 @@
                     <h1>Tags</h1>
                 </div>
                 <div data-role="content">
+                    <ul id="tags" data-role="listview" data-theme="a" data-divider-theme="a"></ul>
                 </div>
             </div>
 
@@ -136,9 +133,7 @@
                     <h1>Authors</h1>
                 </div>
                 <div data-role="content">
-                    <ul id="authors" data-role="listview" data-theme="a">
-                        <h2 style="text-align: center;">Loading authors ...</h2>
-                    </ul>
+                    <ul id="authors" data-role="listview" data-theme="a"></ul>
                 </div>
             </div>
 
@@ -154,7 +149,6 @@
                 </div>
                 <div data-role="content">
                     <ul id="postByCategory" data-role="listview">
-                        <h2 style="text-align: center;">Loading category posts ...</h2>
                     </ul>
                 </div>
             </div>
@@ -170,6 +164,7 @@
                     </div>
                 </div>
                 <div data-role="content">
+                    <div data-role="content"><ul id="postByTagTmp" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul></div>
                 </div>
             </div>
 
@@ -184,9 +179,7 @@
                     </div>
                 </div>
                 <div data-role="content">
-                    <ul id="postByAuthor" data-role="listview">
-                        <h2 style="text-align: center;">Loading author posts ...</h2>
-                    </ul>
+                    <ul id="postByAuthor" data-role="listview"></ul>
                 </div>
             </div>
 
@@ -262,14 +255,12 @@
             <!-- Log page -->
             <div align="center" id="logPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
                 <div data-role="header" data-theme="a">
-                    <h1>Console log</h1>
+                    <h1>Log Console</h1>
                 </div>
                 <div id="logHeader">
                 </div>
                 <div data-role="content">
-                    <ul id="logs" data-role="listview">
-                        <h2 style="text-align: center;">Loading logs ...</h2>
-                    </ul>
+                    <ul id="logs" data-role="listview"></ul>
                  </div>
             </div>
 

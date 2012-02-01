@@ -3,24 +3,32 @@
 // * Events
 // ******************************************************************************
 
+var db;
+var dbName = "xebia";
+
 function onMobileInit() {
+
+    db = Lawnchair({name: dbName}, function(e) {
+   		info('Storage open');
+   	});
+
     $.mobile.defaultPageTransition = 'fade';
 
     $('#homePage').live('pageshow', function(event, ui) { onHomePageShow(); });
     $('#recentPostPage').live('pageshow', function(event, ui){ onRecentPostPageShow(); });
     $('#categoryPage').live('pageshow', function(event, ui){ onCategoryPageShow(); });
     $('#categoryPage').live('pagebeforeshow', function(event, ui){ onCategoryPageBeforeShow(); });
-    $('#tagOtionPage').live('pageshow', function(event, ui){ onTagOptionPageShow(); });
-    $('#tagPage').live('pageshow', function(event, ui){ onTagPageShow(); });
-    $('#tagPage').live('pagebeforeshow', function(event, ui){ onTagPageBeforeShow(); });
     $('#authorPage').live('pageshow', function(event, ui){ onAuthorPageShow(); });
     $('#authorPage').live('pagebeforeshow', function(event, ui){ onAuthorPageBeforeShow(); });
+    $('#logPage').live('pageshow', function(event, ui) { onLogPageShow(); });
+    $('#tagOptionPage').live('pageshow', function(event, ui){ onTagOptionPageShow(); });
+    $('#tagPage').live('pageshow', function(event, ui){ onTagPageShow(); });
+    $('#tagPage').live('pagebeforeshow', function(event, ui){ onTagPageBeforeShow(); });
     $('#postDetailPage').live('pageshow', function(event, ui) { onPostDetailPageShow(); });
     $('#postByAuthorPage').live('pageshow', function(event, ui) { onPostByAuthorPageShow(); });
     $('#postByTagPage').live('pageshow', function(event, ui) { onPostByTagPageShow(); });
     $('#postByCategoryPage').live('pageshow', function(event, ui) { onPostByCategoryPageShow(); });
     $('#insightPage').live('pageshow', function(event, ui) { onInsightPageShow(); });
-    $('#logPage').live('pageshow', function(event, ui) { onLogPageShow(); });
 }
 
 function onHomePageShow() {
@@ -180,7 +188,7 @@ function onCategoryPageBeforeShow() {
 }
 
 function onCategoryPageShow() {
-    loadCategoriesContent('#categories', getFullUrl('/get_category_index/??exclude=slug,description,parent&callback=?'));
+    loadCategoriesContent('#categories', getFullUrl('/get_category_index/?exclude=slug,description,parent&callback=?'));
 }
 
 function onTagPageBeforeShow() {
@@ -192,7 +200,7 @@ function onTagOptionPageShow() {
 }
 
 function onTagPageShow() {
-    loadTagsContent('#tags', getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'));
+    loadTagsContent('#tags', getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'), true);
 }
 
 function onAuthorPageBeforeShow() {
@@ -221,29 +229,84 @@ function onLogPageShow() {
 // * Functions
 // ******************************************************************************
 
-function buildHtmlTagsContent(start, _tags, dividers) {
+// ******************************************************************************
+// * Tags
+// ******************************************************************************
 
-    info("Building HTML content: " + showInterval(start));
-    var itemsContent = '';
-    var currentFirstLetter = '';
-    $.each(_tags, function (i, tag) {
-        var firstLetter = tag.title.substr(0, 1).toUpperCase();
-        var currentFirstLetterChanged = firstLetter != currentFirstLetter;
-        currentFirstLetter = firstLetter;
-        if (currentFirstLetterChanged && dividers) {
-            itemsContent += '<li data-role="list-divider">' + currentFirstLetter + '</li>';
-        }
-        var title = '<h3>' + tag.title + '</h3>';
-        var bubble = '<span class="ui-li-count">' + tag.post_count + '</span>';
-        var link = 'index.html?tag=' + tag.id + '#postByTagPage';
+//function refreshTagListByLetters(start, _tags, letters, element) {
+//    var itemsContent = buildHtmlTagsContent(start, selectByLetters(_tags, letters), false);
+//    refreshTagList(start, itemsContent, element);
+//}
+//
+//function selectByLetters(tags, letters) {
+//    return _.sortBy(_.filter(tags,
+//                    function(tag) { return tag.name.length > 0 && _.include(tag.name[0], letters); }),
+//                    function(tag) { return tag.name; });
+//}
 
-        itemsContent += '<li><a href="' + link + '" rel="external">' + title + bubble + '</a></li>\n';
-    });
-    info("HTML content built: " + showInterval(start));
-    return itemsContent;
+function loadTagsContent(element, url, useCache) {
+    $.mobile.showPageLoadingMsg();
+
+    var start = new Date();
+    var dbKey = dbName + ".tags";
+
+    var onContentLoaded = function() {
+        info("Tags loaded: " + showInterval(start));
+        $.mobile.hidePageLoadingMsg();
+    };
+
+    var onDataLoadedFromUrl = function(data) {
+        saveDataToDb(dbKey, data);
+        onDataLoadedFromDb(data);
+    };
+
+    var onDataLoadedFromDb = function(data) {
+        updateTagListUI(data.tags, element, onContentLoaded);
+    };
+
+    var onLoadDataFromUrl = function() {
+        loadFromUrl(dbKey, url, onDataLoadedFromUrl);
+    };
+
+    if (useCache) {
+        loadFromDb(dbKey, function(data) { onDataLoadedFromDb(data); }, function() { onLoadDataFromUrl(); } );
+    }
+    else {
+        onLoadDataFromUrl();
+    }
 }
 
-function refreshTagList(start, itemsContent, element) {
+function saveDataToDb(dbKey, data) {
+    var start = new Date();
+    info("Saving Json " + dbKey + " content: " + showInterval(start));
+    db.save({ key: dbKey, value: data });
+    info("Saved Json " + dbKey + " content: " + showInterval(start));
+}
+
+function loadFromDb(dbKey, onSuccess, onFailure) {
+    db.get(dbKey, function(data) {
+        if (data) {
+            onSuccess(data.value);
+        }
+        else {
+            onFailure();
+        }
+    });
+}
+
+function loadFromUrl(dbKey, url, onSuccess) {
+    var start = new Date();
+    info("Start loading " + dbKey + " content: " + showInterval(start) );
+    $.getJSON( url, function( data ) {
+        info("Loaded Json " + dbKey + " content: " + showInterval(start));
+        onSuccess(data);
+    });
+}
+
+function updateTagListUI(tags, element, onSuccess) {
+    var start = new Date();
+    var itemsContent = buildHtmlTagsContent(selectMoreReadTags(tags, MAX_VIEW_TAGS), false);
+
     info("Append content to HTML: " + showInterval(start));
 //    console.log(itemsContent);
     $(element).empty();
@@ -271,45 +334,39 @@ function refreshTagList(start, itemsContent, element) {
 //        $.mobile.initializePage();
 //        $.mobile.changePage("#tagPageTmp", { transition: "fade", reverse: false, changeHash: false });
 
-
     info("HTML List Refreshing: " + showInterval(start));
+    onSuccess();
 }
 
-function refreshTagListByLetters(start, _tags, letters, element) {
-    var itemsContent = buildHtmlTagsContent(start, selectByLetters(_tags, letters), false);
-    refreshTagList(start, itemsContent, element);
-
+function selectMoreReadTags(tags, max) {
+    return _.sortBy(tags, function(tag) { return tag.post_count; }).reverse().slice(0, max);
 }
 
-function selectMoreReadTags(_tags, max) {
-    var result = _.sortBy(_tags, function(tag) { return tag.post_count; }).reverse();
-    result = result.slice(0, max);
-    return result;
-}
-
-function selectByLetters(_tags, letters) {
-    var result = _.sortBy(
-                    _.filter(
-                        _tags,
-                        function(tag) { return tag.name.length > 0 && _.include(tag.name[0], letters); }),
-                    function(tag) { return tag.name; });
-    return result;
-}
-
-var tags;
-
-function loadTagsContent(element, url) {
+function buildHtmlTagsContent(_tags, dividers) {
     var start = new Date();
-    info("Start loading content: " + showInterval(start) );
-    $.mobile.showPageLoadingMsg();
-    $.getJSON( url, function( data ) {
-        info("Loaded Json tags content: " + showInterval(start));
-        tags = data.tags;
-        var itemsContent = buildHtmlTagsContent(start, selectMoreReadTags(tags, MAX_VIEW_TAGS), false);
-        refreshTagList(start, itemsContent, element);
-        $.mobile.hidePageLoadingMsg();
+    info("Building HTML content: " + showInterval(start));
+    var itemsContent = '';
+    var currentFirstLetter = '';
+    $.each(_tags, function (i, tag) {
+        var firstLetter = tag.title.substr(0, 1).toUpperCase();
+        var currentFirstLetterChanged = firstLetter != currentFirstLetter;
+        currentFirstLetter = firstLetter;
+        if (currentFirstLetterChanged && dividers) {
+            itemsContent += '<li data-role="list-divider">' + currentFirstLetter + '</li>';
+        }
+        var title = '<h3>' + tag.title + '</h3>';
+        var bubble = '<span class="ui-li-count">' + tag.post_count + '</span>';
+        var link = 'index.html?tag=' + tag.id + '#postByTagPage';
+
+        itemsContent += '<li><a href="' + link + '" rel="external">' + title + bubble + '</a></li>\n';
     });
+    info("HTML content built: " + showInterval(start));
+    return itemsContent;
 }
+
+// ******************************************************************************
+// * Categories
+// ******************************************************************************
 
 function loadCategoriesContent(element, url) {
     $.mobile.showPageLoadingMsg();

@@ -7,17 +7,16 @@
         <meta charset="utf-8" />
         <title>Xebia Blog Mobile</title>
 
-        <link rel="shortcut icon" type="image/png" href="favicon.png" />
-
         <link rel="stylesheet" href="assets/jquery.mobile-1.0.1/jquery.mobile.structure-1.0.1.css" />
         <link rel="stylesheet" href="assets/css/mobile.css" />
         <link rel="stylesheet" href="assets/css/themes/xebia/xebia.css" />
+        <!-- <link rel="stylesheet" href="assets/jquery.simpledialog-1.0/jquery.mobile.simpledialog.css" /> -->
 
         <script src="assets/javascript/xebia-mobile-const.js" type="text/javascript" charset="utf-8"></script>
         <script src="assets/javascript/xebia-mobile-util.js" type="text/javascript" charset="utf-8"></script>
         <script src="assets/javascript/xebia-mobile-main.js" type="text/javascript" charset="utf-8"></script>
         
-        <script src="assets/javascript/phonegap-1.3.0.js" type="text/javascript" charset="utf-8"></script>
+        <script src="assets/javascript/phonegap-1.4.0.js" type="text/javascript" charset="utf-8"></script>
         <script src="assets/javascript/ajax.js" type="text/javascript" charset="utf-8"></script>
         <script src="assets/javascript/localStorage.js" type="text/javascript" charset="utf-8"></script>
         <script src="assets/javascript/security.js" type="text/javascript" charset="utf-8"></script>
@@ -39,7 +38,8 @@
         </script>
 
         <script src="assets/jquery.mobile-1.0.1/jquery.mobile-1.0.1.js" type="text/javascript"  charset="utf-8"></script>
- 
+        <!-- <script src="assets/jquery.simpledialog-1.0/jquery.mobile.simpledialog.js" type="text/javascript"  charset="utf-8"></script> -->
+
     </head>
     <body>
             <!-- home page -->
@@ -101,9 +101,7 @@
                     <h1>Recent Posts</h1>
                 </div>
                 <div data-role="content">
-                    <ul id="recentPosts" data-role="listview" data-theme="a">
-                        <h2 style="text-align: center;">Loading recent posts ...</h2>
-                    </ul>
+                    <ul id="recentPosts" data-role="listview" data-theme="a"></ul>
                 </div>
             </div>
 
@@ -121,9 +119,29 @@
             <div align="center" id="tagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
                 <div data-role="header" data-theme="a">
                     <h1>Tags</h1>
+                    <a href="#tagOptionPage" id="tagPageOptions" data-icon="gear" class="ui-btn-right">Options</a>
                 </div>
                 <div data-role="content">
                     <ul id="tags" data-role="listview" data-theme="a" data-divider-theme="a"></ul>
+                </div>
+            </div>
+
+            <div align="center" id="tagOptionPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+                <div data-role="header" data-theme="a">
+                    <h1>Tags</h1>
+                </div>
+                <div data-role="content">
+                    <div data-role="fieldcontain" data-theme="a">
+                        <label for="tag-list-filter-by" class="select">Filtrer par:</label>
+                        <select name="tag-list-filter-by" id="tag-list-filter-by" data-native-menu="false">
+                            <option value="1">Sort by post count</option>
+                            <option value="2">A-E</option>
+                            <option value="3">F-K</option>
+                            <option value="4">L-R</option>
+                            <option value="5">S-Z</option>
+                            <option value="6t">0-9</option>
+                            <option value="7">Other</option>
+                        </select>
                 </div>
             </div>
 

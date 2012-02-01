@@ -58,7 +58,7 @@
 
     function getFullUrl(relativeUrl) {
         var fullUrl =  JSON_API_BASE_URL + relativeUrl;
-        console.log(fullUrl);
+        info(fullUrl);
         return fullUrl;
     }
 

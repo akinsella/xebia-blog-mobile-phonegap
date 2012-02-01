@@ -9,3 +9,5 @@
     var DEFAULT_ITEM_BY_PAGE = 25;
 
     var DEFAULT_POST_PARAMS = '&exclude=content,comments,attachments';
+
+    var MAX_VIEW_TAGS = 100;

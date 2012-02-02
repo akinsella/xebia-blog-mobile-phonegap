@@ -10,6 +10,6 @@
 
     var DEFAULT_POST_PARAMS = '&exclude=content,comments,attachments';
 
-    var MAX_VIEW_TAGS = 100;
+    var MAX_VIEW_ITEMS = 100;
 
 

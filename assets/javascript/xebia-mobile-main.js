@@ -5,18 +5,18 @@
 
 var db;
 var dbName = "xebia";
-var dbEnabled = false;
 
+var options;
+
+var DEFAULT_OPTIONS = {
+    cacheData: false
+};
 
 // ******************************************************************************
 // * Events
 // ******************************************************************************
 
 function onMobileInit() {
-
-    db = Lawnchair({name: dbName}, function(e) {
-   		info('Storage open');
-   	});
 
     $.mobile.defaultPageTransition = 'fade';
 
@@ -35,6 +35,18 @@ function onMobileInit() {
     $('#postByTagPage').live('pageshow', function(event, ui) { onPostByTagPageShow(); });
     $('#postByCategoryPage').live('pageshow', function(event, ui) { onPostByCategoryPageShow(); });
     $('#insightPage').live('pageshow', function(event, ui) { onInsightPageShow(); });
+
+
+    db = Lawnchair({name: dbName}, function(e) {
+   		info('Storage open');
+   	});
+
+    options = db.get("options", function(options) {
+        if (!options) {
+            options = DEFAULT_OPTIONS;
+            db.save({ key: "options", value: options });
+        }
+    });
 }
 
 function onHomePageShow() {
@@ -206,7 +218,12 @@ function onTagOptionPageShow() {
 }
 
 function onTagPageShow() {
-    loadTagsContent('#tags', getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'), true);
+    loadContent( '#tags',
+        'tags',
+        getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'),
+        function(data) { return buildHtmlTagsContent(selectMoreReadTags(data, MAX_VIEW_ITEMS), false) },
+        function(data) { return data.tags },
+        options);
 }
 
 function onAuthorPageBeforeShow() {
@@ -250,112 +267,16 @@ function onLogPageShow() {
 //                    function(tag) { return tag.name; });
 //}
 
-function loadTagsContent(element, url, useCache) {
-    $.mobile.showPageLoadingMsg();
-
-    var start = new Date();
-    var dbKey = dbName + ".tags";
-
-    var onContentLoaded = function() {
-        info("Tags loaded: " + showInterval(start));
-        $.mobile.hidePageLoadingMsg();
-    };
-
-    var onDataLoadedFromUrl = function(data) {
-        if (dbEnabled) {
-            saveDataToDb(dbKey, data);
-        }
-        onDataLoadedFromDb(data);
-    };
-
-    var onDataLoadedFromDb = function(data) {
-        updateTagListUI(data.tags, element, onContentLoaded);
-    };
-
-    var onLoadDataFromUrl = function() {
-        loadFromUrl(dbKey, url, onDataLoadedFromUrl);
-    };
-
-    if (useCache && dbEnabled) {
-        loadFromDb(dbKey, function(data) { onDataLoadedFromDb(data); }, function() { onLoadDataFromUrl(); } );
-    }
-    else {
-        onLoadDataFromUrl();
-    }
-}
-
-function saveDataToDb(dbKey, data) {
-    var start = new Date();
-    info("Saving Json " + dbKey + " content: " + showInterval(start));
-    db.save({ key: dbKey, value: data });
-    info("Saved Json " + dbKey + " content: " + showInterval(start));
-}
-
-function loadFromDb(dbKey, onSuccess, onFailure) {
-    db.get(dbKey, function(data) {
-        if (data) {
-            onSuccess(data.value);
-        }
-        else {
-            onFailure();
-        }
-    });
-}
-
-function loadFromUrl(dbKey, url, onSuccess) {
-    var start = new Date();
-    info("Start loading " + dbKey + " content: " + showInterval(start) );
-    $.getJSON( url, function( data ) {
-        info("Loaded Json " + dbKey + " content: " + showInterval(start));
-        onSuccess(data);
-    });
-}
-
-function updateTagListUI(tags, element, onSuccess) {
-    var start = new Date();
-    var itemsContent = buildHtmlTagsContent(selectMoreReadTags(tags, MAX_VIEW_TAGS), false);
-
-    info("Append content to HTML: " + showInterval(start));
-//    console.log(itemsContent);
-    $(element).empty();
-    $(element).append(itemsContent);
-    info("Content appended to HTML: " + showInterval(start));
-    info("Refreshing HTML List: " + showInterval(start));
-
-
-// Trigger refresh via listview on content generated
-    $(element).listview("refresh");
-
-
-// Trigger create action on content generated
-//        var page = $( "#tagPage" );
-//        var content = page.children( ":jqmData(role=content)" );
-//        content.html('<ul id="postByTag" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul>');
-//        content.trigger("create");
-
-// Generate a page and load it
-//        var pageContent = '<div align="center" id="tagPageTmp" data-role="page" data-theme="a" class="page" data-add-back-btn="true">' +
-//            '<div data-role="header" data-theme="a"><h1>Tags</h1></div>' +
-//            '<div data-role="content"><ul id="postByTagTmp" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul></div>' +
-//        '</div>';
-//        $("body").append(pageContent);
-//        $.mobile.initializePage();
-//        $.mobile.changePage("#tagPageTmp", { transition: "fade", reverse: false, changeHash: false });
-
-    info("HTML List Refreshing: " + showInterval(start));
-    onSuccess();
-}
-
 function selectMoreReadTags(tags, max) {
     return _.sortBy(tags, function(tag) { return tag.post_count; }).reverse().slice(0, max);
 }
 
-function buildHtmlTagsContent(_tags, dividers) {
+function buildHtmlTagsContent(tags, dividers) {
     var start = new Date();
     info("Building HTML content: " + showInterval(start));
     var itemsContent = '';
     var currentFirstLetter = '';
-    $.each(_tags, function (i, tag) {
+    $.each(tags, function (i, tag) {
         var firstLetter = tag.title.substr(0, 1).toUpperCase();
         var currentFirstLetterChanged = firstLetter != currentFirstLetter;
         currentFirstLetter = firstLetter;

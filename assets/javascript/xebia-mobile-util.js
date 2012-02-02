@@ -13,6 +13,81 @@
         logContent.push(log);
     }
 
+    function saveDataToDb(dbKey, data) {
+        var start = new Date();
+        info("Saving Json " + dbKey + " content: " + showInterval(start));
+        db.save({ key: dbKey, value: data });
+        info("Saved Json " + dbKey + " content: " + showInterval(start));
+    }
+
+    function loadFromUrl(dbKey, url, onSuccess) {
+        var start = new Date();
+        info("Start loading " + dbKey + " content: " + showInterval(start) );
+        $.getJSON( url, function( data ) {
+            info("Loaded Json " + dbKey + " content: " + showInterval(start));
+            onSuccess(data);
+        });
+    }
+
+
+    function updateTagListUI(data, element, onSuccess, itemsContentBuilder) {
+        var start = new Date();
+
+        info("Append content to HTML: " + showInterval(start));
+
+        $(element).empty();
+        $(element).append(itemsContentBuilder(data));
+        info("Content appended to HTML: " + showInterval(start));
+        info("Refreshing HTML List: " + showInterval(start));
+
+        $(element).listview("refresh");
+
+        info("HTML List Refreshing: " + showInterval(start));
+        onSuccess();
+    }
+
+
+    function loadContent(element, cacheKey, url, itemsContentBuilder, dataAccessor, options) {
+        $.mobile.showPageLoadingMsg();
+
+        var start = new Date();
+
+        var onContentLoaded = function() {
+            info("Content loaded: " + showInterval(start));
+            $.mobile.hidePageLoadingMsg();
+        };
+
+        var onDataLoadedFromUrl = function(data) {
+            if (options.cacheData) {
+                saveDataToDb(cacheKey, data);
+            }
+            onDataLoadedFromDb(data);
+        };
+
+        var onDataLoadedFromDb = function(data) {
+            updateTagListUI(dataAccessor(data), element, onContentLoaded, itemsContentBuilder);
+        };
+
+        var onLoadDataFromUrl = function() {
+            loadFromUrl(cacheKey, url, onDataLoadedFromUrl);
+        };
+
+        if (options.cacheData) {
+            db.get(cacheKey, function(data) {
+                if (data) {
+                    onDataLoadedFromDb(data);
+                }
+                else {
+                    onLoadDataFromUrl();
+                }
+            });
+        }
+        else {
+            onLoadDataFromUrl();
+        }
+    }
+
+
     function linkify(inputText) {
         //URLs starting with http://, https://, or ftp://
         var replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
@@ -66,7 +141,6 @@
         var d = new Date();
         return d.getMilliseconds();
     }
-
 
     function showInterval(start) {
         var duration = new Date(new Date() - start + start.getTimezoneOffset() * 60000);

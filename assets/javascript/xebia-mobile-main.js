@@ -1,10 +1,16 @@
 
 // ******************************************************************************
-// * Events
+// * Global variables
 // ******************************************************************************
 
 var db;
 var dbName = "xebia";
+var dbEnabled = false;
+
+
+// ******************************************************************************
+// * Events
+// ******************************************************************************
 
 function onMobileInit() {
 
@@ -256,7 +262,9 @@ function loadTagsContent(element, url, useCache) {
     };
 
     var onDataLoadedFromUrl = function(data) {
-        saveDataToDb(dbKey, data);
+        if (dbEnabled) {
+            saveDataToDb(dbKey, data);
+        }
         onDataLoadedFromDb(data);
     };
 
@@ -268,7 +276,7 @@ function loadTagsContent(element, url, useCache) {
         loadFromUrl(dbKey, url, onDataLoadedFromUrl);
     };
 
-    if (useCache) {
+    if (useCache && dbEnabled) {
         loadFromDb(dbKey, function(data) { onDataLoadedFromDb(data); }, function() { onLoadDataFromUrl(); } );
     }
     else {

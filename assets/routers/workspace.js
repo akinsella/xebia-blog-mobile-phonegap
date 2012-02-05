@@ -9,7 +9,7 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
             "tag/list":      "tag",        // #tag/list
             "tag/:id":       "tag",        // #tag/129
             "author/list":   "author",     // #author/list
-            "author/:id":    "authorById", // #author/41
+            "author/:id":    "author",     // #author/41
             "category/list": "category",   // #category/list
             "category/:id":  "category",   // #category/342
             "option/view" :  "option",     // #option/view
@@ -24,7 +24,7 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
             this.bookmarkMode = true;
             xebiaMobile.utils.changePage( "#categoryPage", "fade", false, false );
         },
-        author: function ( id ) {
+        author: function () {
             this.bookmarkMode = true;
             xebiaMobile.utils.changePage( "#authorPage", "fade", false, false );
         },

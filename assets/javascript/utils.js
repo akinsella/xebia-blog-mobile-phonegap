@@ -61,17 +61,6 @@ define( ['jquery' ], function( $ ) {
         $( '.ui-title' ).text( title || "" );
     };
 
-    // summary:
-    //            Toggle whether the navigation is displayed or hidden
-    //
-    // toggleState: Boolean
-    //            A boolean that decides whether the navigation should be toggled on or off.
-
-    utils.toggleNavigation = function( toggleState ) {
-        xebiaMobile.ui.nextOption.toggle( toggleState );
-        xebiaMobile.ui.prevOption.toggle( toggleState );
-    };
-
     utils.info = function(log) {
         console.log(log);
         if (logContent.length > 1000) {

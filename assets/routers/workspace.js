@@ -3,7 +3,7 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
 
-    var Workspace = Backbone.Router.extend( {
+    return Backbone.Router.extend( {
         bookmarkMode:false,
         routes: {
             "tag/list":      "tag",        // #tag/list
@@ -37,6 +37,5 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
             xebiaMobile.utils.changePage( "#homePage", "fade", false, false );
         }
     } );
-
-    return Workspace;
+    
 } );

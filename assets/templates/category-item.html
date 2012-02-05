@@ -1,0 +1,7 @@
+<% _.each( results, function( item, i ){ %>
+    <li>
+        <a href="index.html?tag=<%= item.get('id') %>#postByCategoryPage" rel="external">
+            <h3><%= item.get("title") %></h3><span class="ui-li-count"><%= item.get("post_count") %></span>
+        </a>
+    </li>
+<% }); %>

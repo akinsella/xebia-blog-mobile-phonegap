@@ -1,36 +1,102 @@
+define( ['jquery' ], function( $ ) {
 
-// ******************************************************************************
-// * Utils functions
-// ******************************************************************************
+    // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
+    //"use strict";
+    var utils = {};
 
     var logContent = new Array();
 
-    function info(log) {
+    // summary:
+    //            A convenience method for accessing $mobile.changePage(), included
+    //            in case any other actions are required in the same step.
+    // changeTo: String
+    //            Absolute or relative URL. In this app references to '#index', '#search' etc.
+    // effect: String
+    //            One of the supported jQuery mobile transition effects
+    // direction: Boolean
+    //            Decides the direction the transition will run when showing the page
+    // updateHash: Boolean
+    //            Decides if the hash in the location bar should be updated
+
+    utils.changePage = function( viewID, effect, direction, updateHash ) {
+        $.mobile.changePage( viewID, { transition: effect, reverse:direction, changeHash: updateHash} );
+    };
+
+    // summary:
+    //            Format dates so that they're compatible with input passed through
+    //            the datepicker component
+    // date: String
+    //            The date string to be formatted
+    // returns:
+    //            A formatted date
+    utils.dateFormatter = function ( dateStr ) {
+        return (dateStr == undefined)? '' : $.datepicker.formatDate( '@', new Date( dateStr ) );
+    };
+
+    // summary:
+    //            Display a custom notification using the loader extracted from jQuery mobile.
+    //            The only reason this is here is for further customization.
+    //
+    // message: String
+    //            The message to display in the notification dialog
+    utils.loadPrompt = function( message ) {
+        message = (message == undefined) ? "" : message;
+
+        $( "<div class='ui-loader ui-overlay-shadow ui-body-e ui-corner-all'><h1>" + message + "</h1></div>" )
+        .css( { "display": "block", "opacity": 0.96, "top": $( window ).scrollTop() + 100 } )
+        .appendTo( $.mobile.pageContainer )
+        .delay( 800 )
+        .fadeOut( 400, function() {
+            $( this ).remove();
+        } );
+
+    };
+
+    // summary:
+    //            Adjust the title of the current view
+    //
+    // title: String
+    //            The title to update the view with
+    utils.switchTitle = function( title ) {
+        $( '.ui-title' ).text( title || "" );
+    };
+
+    // summary:
+    //            Toggle whether the navigation is displayed or hidden
+    //
+    // toggleState: Boolean
+    //            A boolean that decides whether the navigation should be toggled on or off.
+
+    utils.toggleNavigation = function( toggleState ) {
+        xebiaMobile.ui.nextOption.toggle( toggleState );
+        xebiaMobile.ui.prevOption.toggle( toggleState );
+    };
+
+    utils.info = function(log) {
         console.log(log);
         if (logContent.length > 1000) {
             logContent.shift();
         }
         logContent.push(log);
-    }
+    };
 
-    function saveDataToDb(dbKey, data) {
+    utils.saveDataToDb = function(dbKey, data) {
         var start = new Date();
         info("Saving Json " + dbKey + " content: " + showInterval(start));
         db.save({ key: dbKey, value: data });
         info("Saved Json " + dbKey + " content: " + showInterval(start));
-    }
+    };
 
-    function loadFromUrl(dbKey, url, onSuccess) {
+    utils.loadFromUrl = function(dbKey, url, onSuccess) {
         var start = new Date();
         info("Start loading " + dbKey + " content: " + showInterval(start) );
         $.getJSON( url, function( data ) {
             info("Loaded Json " + dbKey + " content: " + showInterval(start));
             onSuccess(data);
         });
-    }
+    };
 
-
-    function updateTagListUI(data, element, onSuccess, itemsContentBuilder) {
+    utils.updateTagListUI = function(data, element, onSuccess, itemsContentBuilder) {
         var start = new Date();
 
         info("Append content to HTML: " + showInterval(start));
@@ -44,10 +110,10 @@
 
         info("HTML List Refreshing: " + showInterval(start));
         onSuccess();
-    }
+    };
 
 
-    function loadContent(element, cacheKey, url, itemsContentBuilder, dataAccessor, options) {
+    utils.loadContent = function(element, cacheKey, url, itemsContentBuilder, dataAccessor, options) {
         $.mobile.showPageLoadingMsg();
 
         var start = new Date();
@@ -85,10 +151,10 @@
         else {
             onLoadDataFromUrl();
         }
-    }
+    };
 
 
-    function linkify(inputText) {
+    utils.linkify = function(inputText) {
         //URLs starting with http://, https://, or ftp://
         var replacePattern1 = /(\b(https?|ftp):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/gim;
         var replacedText = inputText.replace(replacePattern1, '<a href="$1" target="_blank">$1</a>');
@@ -102,24 +168,24 @@
         replacedText = replacedText.replace(replacePattern3, '<a href="mailto:$1">$1</a>');
 
         return replacedText;
-    }
+    };
 
-    function decodeHtmlEntities(encodedContent) {
+    utils.decodeHtmlEntities = function(encodedContent) {
         return $("<div/>").html(encodedContent).text();
-    }
+    };
 
-    function stripTags(content) {
+    utils.stripTags = function(content) {
 
         var result = content.replace(/(<([^>]+)>)/ig,"").replace(/\r\n/g, '<br>').replace(/\r/g, '<br>').replace(/\n/g, '<br>');
 
         return linkify(result);
-    }
+    };
 
 /*    function fixLinkIssue() {
         $('[data-role=content] a').addClass("ui-link");
     } */
 
-    function getParameterByName( name ) {
+    utils.getParameterByName = function( name ) {
         name = name.replace(/[\[]/,"\\\[").replace(/[\]]/,"\\\]");
         var regex = new RegExp( "[\\?&]" + name + "=([^&#]*)" );
         var results = regex.exec( window.location.href );
@@ -129,24 +195,24 @@
         else {
             return decodeURIComponent(results[1].replace(/\+/g, " "));
         }
-    }
+    };
 
-    function getFullUrl(relativeUrl) {
+    utils.getFullUrl = function(relativeUrl) {
         var fullUrl =  JSON_API_BASE_URL + relativeUrl;
         info(fullUrl);
         return fullUrl;
-    }
+    };
 
-    function getMilliSeconds() {
+    utils.getMilliSeconds = function() {
         var d = new Date();
         return d.getMilliseconds();
-    }
+    };
 
-    function showInterval(start) {
+    utils.showInterval = function(start) {
         var duration = new Date(new Date() - start + start.getTimezoneOffset() * 60000);
         var formattedDuration = duration.toString("HH:mm:ss");
         return formattedDuration + "." + duration.getMilliseconds();
-    }
+    };
 
 //    function showInterval(start) {
 //        return showIntervalWithFormat(start, "{MM}:{ss}");
@@ -156,7 +222,7 @@
 //        return jintervals(new Date() - start, format);
 //    }
 
-    function getJson(url, successCallback, errorCallback) {
+    utils.getJson = function(url, successCallback, errorCallback) {
         $.ajax({
             url: url,
             type: 'GET',
@@ -167,18 +233,25 @@
             success: successCallback,
             error: errorCallback
         });
-    }
+    };
 
-    function defaultAjaxErrorCallback(jqXHR, textStatus, errorThrown) {
+    utils.defaultAjaxErrorCallback = function(jqXHR, textStatus, errorThrown) {
         alert("Error thrown: " + errorThrown + ", status: " + textStatus + ", text: " + jqXHR.responseText);
         var err = eval("(" + jqXHR.responseText + ")");
         alert("Error thrown: " + errorThrown + ", status: " + textStatus + ", text: " + err.message);
-    }
+    };
 
-    function fetch(key) {
+    utils.fetch = function(key) {
         return localStorage.getItem(key);
-    }
+    };
 
-    function store(key, content) {
+    utils.store = function(key, content) {
         return localStorage.setItem(key, content);
-    }
+    };
+
+    return utils;
+});
+
+
+
+

@@ -3,7 +3,7 @@ define( ['jquery', 'backbone', 'models/TagEntry', 'views/tagList'], function( $,
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
 
-    var TagCollection = Backbone.Collection.extend( {
+    return Backbone.Collection.extend( {
         model: TagEntry,
         parse: function( response ) {
             return response;
@@ -14,6 +14,5 @@ define( ['jquery', 'backbone', 'models/TagEntry', 'views/tagList'], function( $,
         }
     } );
 
-    return TagCollection;
 });
             

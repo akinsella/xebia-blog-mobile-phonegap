@@ -37,5 +37,5 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
             xebiaMobile.utils.changePage( "#homePage", "fade", false, false );
         }
     } );
-    
+
 } );

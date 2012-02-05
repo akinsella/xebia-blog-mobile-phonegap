@@ -27,4 +27,5 @@ require(['require', 'backbone', 'jquery', 'underscore' ], function( require, Bac
         $.mobile.pushStateEnabled = false;
         $.mobile.page.prototype.options.degradeInputs.date = true;
     });
+
 });

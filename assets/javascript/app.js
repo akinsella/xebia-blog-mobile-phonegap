@@ -1,5 +1,5 @@
 define( ['backbone', 'views/appview', 'routers/workspace', 'utils'],
-    function( Backbone, AppView, Workspace, utils, ui ) {
+    function( Backbone, AppView, Workspace, utils ) {
 
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
@@ -14,7 +14,6 @@ define( ['backbone', 'views/appview', 'routers/workspace', 'utils'],
                 workspace: new Workspace()
             },
             utils: utils,
-            ui: ui,
             defaults: {
                 resultsPerPage: 50
             }

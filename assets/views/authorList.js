@@ -18,5 +18,5 @@ define( ['jquery', 'backbone', 'underscore','text!templates/author-item.html'], 
             setTimeout( function() { collection.authorList.el.listview('refresh'); }, 0 );
         }
     } );
-    
+
 } );

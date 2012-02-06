@@ -4,7 +4,16 @@ define( ['jquery' ], function( $ ) {
     //"use strict";
     var utils = {};
 
+    /*    var JSON_API_BASE_URL = 'http://192.168.0.101/wordpress/api'; */
+    var JSON_API_BASE_URL = 'http://blog.xebia.fr/wp-json-api';
+
     var logContent = new Array();
+
+
+    utils.getLogContent = function() {
+        return logContent;
+    };
+
 
     // summary:
     //            A convenience method for accessing $mobile.changePage(), included
@@ -22,16 +31,6 @@ define( ['jquery' ], function( $ ) {
         $.mobile.changePage( viewID, { transition: effect, reverse:direction, changeHash: updateHash} );
     };
 
-    // summary:
-    //            Format dates so that they're compatible with input passed through
-    //            the datepicker component
-    // date: String
-    //            The date string to be formatted
-    // returns:
-    //            A formatted date
-    utils.dateFormatter = function ( dateStr ) {
-        return (dateStr == undefined)? '' : $.datepicker.formatDate( '@', new Date( dateStr ) );
-    };
 
     // summary:
     //            Display a custom notification using the loader extracted from jQuery mobile.
@@ -49,7 +48,6 @@ define( ['jquery' ], function( $ ) {
         .fadeOut( 400, function() {
             $( this ).remove();
         } );
-
     };
 
     // summary:
@@ -71,16 +69,16 @@ define( ['jquery' ], function( $ ) {
 
     utils.saveDataToDb = function(dbKey, data) {
         var start = new Date();
-        info("Saving Json " + dbKey + " content: " + showInterval(start));
-        db.save({ key: dbKey, value: data });
-        info("Saved Json " + dbKey + " content: " + showInterval(start));
+        utils.info("Saving Json " + dbKey + " content: " + utils.showInterval(start));
+        utils.db.save({ key: dbKey, value: data });
+        utils.info("Saved Json " + dbKey + " content: " + utils.showInterval(start));
     };
 
     utils.loadFromUrl = function(dbKey, url, onSuccess) {
         var start = new Date();
-        info("Start loading " + dbKey + " content: " + showInterval(start) );
+        utils.info("Start loading " + dbKey + " content: " + utils.showInterval(start) );
         $.getJSON( url, function( data ) {
-            info("Loaded Json " + dbKey + " content: " + showInterval(start));
+            utils.info("Loaded Json " + dbKey + " content: " + utils.showInterval(start));
             onSuccess(data);
         });
     };
@@ -88,16 +86,16 @@ define( ['jquery' ], function( $ ) {
     utils.updateTagListUI = function(data, element, onSuccess, itemsContentBuilder) {
         var start = new Date();
 
-        info("Append content to HTML: " + showInterval(start));
+        utils.info("Append content to HTML: " + utils.showInterval(start));
 
         $(element).empty();
         $(element).append(itemsContentBuilder(data));
-        info("Content appended to HTML: " + showInterval(start));
-        info("Refreshing HTML List: " + showInterval(start));
+        utils.info("Content appended to HTML: " + utils.showInterval(start));
+        utils.info("Refreshing HTML List: " + utils.showInterval(start));
 
         $(element).listview("refresh");
 
-        info("HTML List Refreshing: " + showInterval(start));
+        utils.info("HTML List Refreshing: " + utils.showInterval(start));
         onSuccess();
     };
 
@@ -108,27 +106,27 @@ define( ['jquery' ], function( $ ) {
         var start = new Date();
 
         var onContentLoaded = function() {
-            info("Content loaded: " + showInterval(start));
+            utils.info("Content loaded: " + utils.showInterval(start));
             $.mobile.hidePageLoadingMsg();
         };
 
         var onDataLoadedFromUrl = function(data) {
             if (options.cacheData) {
-                saveDataToDb(cacheKey, data);
+                utils.saveDataToDb(cacheKey, data);
             }
             onDataLoadedFromDb(data);
         };
 
         var onDataLoadedFromDb = function(data) {
-            updateTagListUI(dataAccessor(data), element, onContentLoaded, itemsContentBuilder);
+            utils.updateTagListUI(dataAccessor(data), element, onContentLoaded, itemsContentBuilder);
         };
 
         var onLoadDataFromUrl = function() {
-            loadFromUrl(cacheKey, url, onDataLoadedFromUrl);
+            utils.loadFromUrl(cacheKey, url, onDataLoadedFromUrl);
         };
 
         if (options.cacheData) {
-            db.get(cacheKey, function(data) {
+            utils.db.get(cacheKey, function(data) {
                 if (data) {
                     onDataLoadedFromDb(data);
                 }
@@ -167,7 +165,7 @@ define( ['jquery' ], function( $ ) {
 
         var result = content.replace(/(<([^>]+)>)/ig,"").replace(/\r\n/g, '<br>').replace(/\r/g, '<br>').replace(/\n/g, '<br>');
 
-        return linkify(result);
+        return utils.linkify(result);
     };
 
 /*    function fixLinkIssue() {
@@ -188,7 +186,7 @@ define( ['jquery' ], function( $ ) {
 
     utils.getFullUrl = function(relativeUrl) {
         var fullUrl =  JSON_API_BASE_URL + relativeUrl;
-        info(fullUrl);
+        utils.info(fullUrl);
         return fullUrl;
     };
 

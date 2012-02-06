@@ -1,11 +1,8 @@
-define( ['jquery' ], function( $ ) {
+define( ['jquery', 'utils', 'underscore', 'lawnchair' ], function( $, utils, _, lawnchair ) {
 
     // ******************************************************************************
     // * Constants
     // ******************************************************************************
-
-    /*    var JSON_API_BASE_URL = 'http://192.168.0.101/wordpress/api'; */
-    var JSON_API_BASE_URL = 'http://blog.xebia.fr/wp-json-api';
 
     var DEFAULT_ITEM_BY_PAGE = 25;
 
@@ -40,25 +37,25 @@ define( ['jquery' ], function( $ ) {
 
         $.mobile.defaultPageTransition = 'fade';
 
-        $('#homePage').live('pageshow', function(event, ui) { onHomePageShow(); });
-        $('#recentPostPage').live('pageshow', function(event, ui){ onRecentPostPageShow(); });
-        $('#categoryPage').live('pageshow', function(event, ui){ onCategoryPageShow(); });
-        $('#categoryPage').live('pagebeforeshow', function(event, ui){ onCategoryPageBeforeShow(); });
-        $('#authorPage').live('pageshow', function(event, ui){ onAuthorPageShow(); });
-        $('#authorPage').live('pagebeforeshow', function(event, ui){ onAuthorPageBeforeShow(); });
-        $('#logPage').live('pageshow', function(event, ui) { onLogPageShow(); });
-        $('#tagOptionPage').live('pageshow', function(event, ui){ onTagOptionPageShow(); });
-        $('#tagPage').live('pageshow', function(event, ui){ onTagPageShow(); });
-        $('#tagPage').live('pagebeforeshow', function(event, ui){ onTagPageBeforeShow(); });
-        $('#postDetailPage').live('pageshow', function(event, ui) { onPostDetailPageShow(); });
-        $('#postByAuthorPage').live('pageshow', function(event, ui) { onPostByAuthorPageShow(); });
-        $('#postByTagPage').live('pageshow', function(event, ui) { onPostByTagPageShow(); });
-        $('#postByCategoryPage').live('pageshow', function(event, ui) { onPostByCategoryPageShow(); });
-        $('#insightPage').live('pageshow', function(event, ui) { onInsightPageShow(); });
+        $('#homePage').live('pageshow', function(event, ui) { core.onHomePageShow(); });
+        $('#recentPostPage').live('pageshow', function(event, ui){ core.onRecentPostPageShow(); });
+        $('#categoryPage').live('pageshow', function(event, ui){ core.onCategoryPageShow(); });
+        $('#categoryPage').live('pagebeforeshow', function(event, ui){ core.onCategoryPageBeforeShow(); });
+        $('#authorPage').live('pageshow', function(event, ui){ core.onAuthorPageShow(); });
+        $('#authorPage').live('pagebeforeshow', function(event, ui){ core.onAuthorPageBeforeShow(); });
+        $('#logPage').live('pageshow', function(event, ui) { core.onLogPageShow(); });
+        $('#tagOptionPage').live('pageshow', function(event, ui){ core.onTagOptionPageShow(); });
+        $('#tagPage').live('pageshow', function(event, ui){ core.onTagPageShow(); });
+        $('#tagPage').live('pagebeforeshow', function(event, ui){ core.onTagPageBeforeShow(); });
+        $('#postDetailPage').live('pageshow', function(event, ui) { core.onPostDetailPageShow(); });
+        $('#postByAuthorPage').live('pageshow', function(event, ui) { core.onPostByAuthorPageShow(); });
+        $('#postByTagPage').live('pageshow', function(event, ui) { core.onPostByTagPageShow(); });
+        $('#postByCategoryPage').live('pageshow', function(event, ui) { core.onPostByCategoryPageShow(); });
+        $('#insightPage').live('pageshow', function(event, ui) { core.onInsightPageShow(); });
 
 
         db = Lawnchair({name: dbName}, function(e) {
-            info('Storage open');
+            utils.info('Storage open');
         });
 
         options = db.get("options", function(options) {
@@ -67,27 +64,27 @@ define( ['jquery' ], function( $ ) {
                 db.save({ key: "options", value: options });
             }
         });
-    }
+    };
 
     core.onHomePageShow = function() {
         // Write some code
-    }
+    };
 
     core.onRecentPostPageShow = function() {
-        loadPostsContent('#recentPosts', getFullUrl('/get_recent_posts/?callback=?'), function(data) { });
-    }
+        core.loadPostsContent('#recentPosts', utils.getFullUrl('/get_recent_posts/?callback=?'), function(data) { });
+    };
 
     core.onPostByAuthorPageShow = function() {
         $('#postByAuthorPageNav').hide();
 
-        var authorId = parseInt(getParameterByName("author"));
-        var page = parseInt(getParameterByName("page"));
-        var pageSize = parseInt(getParameterByName("count"));
+        var authorId = parseInt(utils.getParameterByName("author"));
+        var page = parseInt(utils.getParameterByName("page"));
+        var pageSize = parseInt(utils.getParameterByName("count"));
 
         if (isNaN(page)) { page = 1; }
         if (isNaN(pageSize)) { pageSize = DEFAULT_ITEM_BY_PAGE; }
 
-        loadPostsContent('#postByAuthor', getFullUrl('/get_author_posts/?exclude=slug,description,parent,nickname,first_name,last_name,url&author_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
+        core.loadPostsContent('#postByAuthor', utils.getFullUrl('/get_author_posts/?exclude=slug,description,parent,nickname,first_name,last_name,url&author_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
             function(data) {
                 /* Set title */
                 $('#postByAuthorTitleAuthor').text(data.author.name);
@@ -123,19 +120,19 @@ define( ['jquery' ], function( $ ) {
 
                 $('#postByAuthorPageNav').show();
             });
-    }
+    };
 
     core.onPostByCategoryPageShow = function() {
         $('#postByCategoryPageNav').hide();
 
-        var categoryId = parseInt(getParameterByName("category"));
-        var page = parseInt(getParameterByName("page"));
-        var pageSize = parseInt(getParameterByName("count"));
+        var categoryId = parseInt(utils.getParameterByName("category"));
+        var page = parseInt(utils.getParameterByName("page"));
+        var pageSize = parseInt(utils.getParameterByName("count"));
 
         if (isNaN(page)) { page = 1; }
         if (isNaN(pageSize)) { pageSize = DEFAULT_ITEM_BY_PAGE; }
 
-        loadPostsContent('#postByCategory', getFullUrl('/get_category_posts/?exclude=slug,description,parent&category_id=' + categoryId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
+        core.loadPostsContent('#postByCategory', utils.getFullUrl('/get_category_posts/?exclude=slug,description,parent&category_id=' + categoryId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
             function(data) {
                 /* Set title */
                 $('#postByCategoryTitleCategory').text(data.category.title);
@@ -171,19 +168,19 @@ define( ['jquery' ], function( $ ) {
 
                 $('#postByCategoryPageNav').show();
             });
-    }
+    };
 
     core.onPostByTagPageShow = function() {
         $('#postByTagPageNav').hide();
 
-        var authorId = parseInt(getParameterByName("tag"));
-        var page = parseInt(getParameterByName("page"));
-        var pageSize = parseInt(getParameterByName("count"));
+        var authorId = parseInt(utils.getParameterByName("tag"));
+        var page = parseInt(utils.getParameterByName("page"));
+        var pageSize = parseInt(utils.getParameterByName("count"));
 
         if (isNaN(page)) { page = 1; }
         if (isNaN(pageSize)) { pageSize = DEFAULT_ITEM_BY_PAGE; }
 
-        loadPostsContent('#postByTag', getFullUrl('/get_tag_posts/?exclude=slug,description,parent&tag_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
+        core.loadPostsContent('#postByTag', utils.getFullUrl('/get_tag_posts/?exclude=slug,description,parent&tag_id=' + authorId + '&page=' + page + '&count=' + pageSize + DEFAULT_POST_PARAMS + '&callback=?'),
             function(data) {
                 /* Set title */
                 $('#postByTagTitleTag').text(data.tag.title);
@@ -219,53 +216,53 @@ define( ['jquery' ], function( $ ) {
 
                 $('#postByTagPageNav').show();
             });
-    }
+    };
 
     core.onCategoryPageBeforeShow = function() {
         $("#categories").empty();
-    }
+    };
 
     core.onCategoryPageShow = function() {
-        loadCategoriesContent('#categories', getFullUrl('/get_category_index/?exclude=slug,description,parent&callback=?'));
-    }
+        core.loadCategoriesContent('#categories', utils.getFullUrl('/get_category_index/?exclude=slug,description,parent&callback=?'));
+    };
 
     core.onTagPageBeforeShow = function() {
         $("#tags").empty();
-    }
+    };
 
     core.onTagOptionPageShow = function() {
-        info("Loading tag option page");
-    }
+        utils.info("Loading tag option page");
+    };
 
     core.onTagPageShow = function() {
-        loadContent( '#tags',
+        utils.loadContent( '#tags',
             'tags',
-            getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'),
-            function(data) { return buildHtmlTagsContent(selectMoreReadTags(data, MAX_VIEW_ITEMS), false) },
+            utils.getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'),
+            function(data) { return core.buildHtmlTagsContent(core.selectMoreReadTags(data, MAX_VIEW_ITEMS), false) },
             function(data) { return data.tags },
             options);
-    }
+    };
 
     core.onAuthorPageBeforeShow = function() {
         $("#authors").empty();
-    }
+    };
 
     core.onAuthorPageShow = function() {
-        loadAuthorsContent('#authors', getFullUrl('/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?'));
-    }
+        core.loadAuthorsContent('#authors', utils.getFullUrl('/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?'));
+    };
 
     core.onPostDetailPageShow = function() {
-        var postId = getParameterByName("post");
-        loadPostDetailContent(getFullUrl('/get_post/?post_id=' + postId + '&callback=?'));
-    }
+        var postId = utils.getParameterByName("post");
+        core.loadPostDetailContent(utils.getFullUrl('/get_post/?post_id=' + postId + '&callback=?'));
+    };
 
     core.onInsightPageShow = function() {
-        loadInsightContent();
-    }
+        core.loadInsightContent();
+    };
 
     core.onLogPageShow = function() {
         loadLogContent('#logs');
-    }
+    };
 
 
     // ******************************************************************************
@@ -293,7 +290,7 @@ define( ['jquery' ], function( $ ) {
 
     core.buildHtmlTagsContent = function(tags, dividers) {
         var start = new Date();
-        info("Building HTML content: " + showInterval(start));
+        utils.info("Building HTML content: " + utils.showInterval(start));
         var itemsContent = '';
         var currentFirstLetter = '';
         $.each(tags, function (i, tag) {
@@ -309,9 +306,9 @@ define( ['jquery' ], function( $ ) {
 
             itemsContent += '<li><a href="' + link + '" rel="external">' + title + bubble + '</a></li>';
         });
-        info("HTML content built: " + showInterval(start));
+        utils.info("HTML content built: " + utils.showInterval(start));
         return itemsContent;
-    }
+    };
 
     // ******************************************************************************
     // * Categories
@@ -335,7 +332,7 @@ define( ['jquery' ], function( $ ) {
             $(element).listview("refresh");
             $.mobile.hidePageLoadingMsg();
         });
-    }
+    };
 
     core.loadAuthorsContent = function(element, url) {
         $.mobile.showPageLoadingMsg();
@@ -353,7 +350,7 @@ define( ['jquery' ], function( $ ) {
             $(element).listview("refresh");
             $.mobile.hidePageLoadingMsg();
         });
-    }
+    };
 
     core.loadPostsContent = function(element, url, callback) {
         $.mobile.showPageLoadingMsg();
@@ -376,7 +373,7 @@ define( ['jquery' ], function( $ ) {
             $(element).listview("refresh");
             $.mobile.hidePageLoadingMsg();
         });
-    }
+    };
 
     core.loadPostDetailContent = function(url, postId) {
 
@@ -439,7 +436,7 @@ define( ['jquery' ], function( $ ) {
 
             $.each(post.comments, function(i, comment) {
                 var title = '<p></p><a href="' + comment.url + '" rel="external">' + comment.name + '</a></p>';
-                var subtitle = '<p class="postCommentsItemContent"><em>' + decodeHtmlEntities(comment.content) + '</em></p>';
+                var subtitle = '<p class="postCommentsItemContent"><em>' + utils.decodeHtmlEntities(comment.content) + '</em></p>';
                 var aside = '<div class="postCommentsItemAside"><p><em>' + comment.date.substr(0, 10) + '</em></p></div>';
                 itemsContent += '<div class="postCommentsItem">' + aside + title + subtitle + '</div>';
             });
@@ -449,12 +446,12 @@ define( ['jquery' ], function( $ ) {
 
             $.mobile.hidePageLoadingMsg();
         });
-    }
+    };
 
     core.loadInsightContent = function() {
 
         var insightTitle = fetch('insightTitle');
-        var insightContent = decodeHtmlEntities(fetch('insightContent'));
+        var insightContent = utils.decodeHtmlEntities(fetch('insightContent'));
         var insightUrl = fetch('insightUrl');
 
 
@@ -468,19 +465,19 @@ define( ['jquery' ], function( $ ) {
 
         /* Set insight url */
         $('#insightUrl').attr("href", insightUrl);
-    }
+    };
 
 
     core.loadLogContent = function(element) {
         $(element).empty();
 
         var itemsContent = '';
-        $.each(logContent, function(i, log) {
+        $.each(utils.getLogContent(), function(i, log) {
             itemsContent += '<li>' + log + '</li>';
         });
         $(element).append(itemsContent);
         $(element).listview("refresh");
-    }
+    };
 
     return core;
 });

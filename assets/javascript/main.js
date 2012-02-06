@@ -16,7 +16,7 @@ require.config({
 
 require(['require', 'backbone', 'jquery', 'underscore' ], function( require, Backbone, $, _ ) {
     // framework loaded
-    require( ['require', 'jquerymobile', 'date', 'lawnchair', 'core', 'app'], function(require) {
+    require( ['require', 'jquerymobile', 'date', 'lawnchair', 'core', 'app'], function(require, jqm, date, lawnchair, core, app) {
 
          // Global overrides to disable hashchange listening
          // (as opposed to using urlHistory.listeningEnabled)
@@ -26,6 +26,8 @@ require(['require', 'backbone', 'jquery', 'underscore' ], function( require, Bac
         $.mobile.hashListeningEnabled = false;
         $.mobile.pushStateEnabled = false;
         $.mobile.page.prototype.options.degradeInputs.date = true;
+
+        core.onMobileInit();
     });
 
 });

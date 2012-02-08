@@ -3,7 +3,6 @@
 <html>
 
     <head>
-
         <meta charset="utf-8" />
         <title>Xebia Blog Mobile</title>
 
@@ -12,277 +11,278 @@
         <link rel="stylesheet" href="assets/css/themes/xebia/xebia.css" />
 
         <script data-main="assets/javascript/main" src="assets/javascript/lib/require/require-1.0.5.js"></script>
-
     </head>
+
     <body>
-            <!-- home page -->
-            <div align="center" id="homePage" data-role="page" class="home" data-add-back-btn="true">
-                <div id="homeheader">
-                    <h1 id="logo"><img class="logo" src="assets/image/logo-xebia.png" alt="jQuery Mobile Framework" /></h1>
-                    <p id="version">Alpha Release</p>
+        <script type="text/javascript">document.getElementsByTagName('html')[0].style.display="none";</script>
+
+        <!-- home page -->
+        <div align="center" id="homePage" data-role="page" class="home" data-add-back-btn="true">
+            <div id="homeheader">
+               <!-- <h1 id="logo"><img class="logo" src="assets/image/logo-xebia.png" alt="jQuery Mobile Framework" /></h1> -->
+                <p id="version">Alpha Release</p>
+            </div>
+            <div id="homecontent" data-role="content" data-theme="a">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <a href="#recentPostPage" class="silver large awesome">
+                            <img class="menu-img" src="assets/image/menu/34-recent.png" />
+                            <p class="menu-btn-text">Recent posts</p>
+                        </a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#categoryPage" class="silver large awesome">
+                            <img class="menu-img" src="assets/image/menu/33-category.png" />
+                            <p class="menu-btn-text">Categories</p>
+                        </a>
+                    </div>
                 </div>
-                <div data-role="content" data-theme="a">
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <a href="#tagPage" class="silver large awesome">
+                            <img class="menu-img" src="assets/image/menu/15-tags.png" />
+                            <p class="menu-btn-text">Tags</p>
+                        </a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#authorPage" class="silver large awesome">
+                            <img class="menu-img" src="assets/image/menu/112-author.png" />
+                            <p class="menu-btn-text">Authors</p>
+                        </a>
+                    </div>
+                </div>
+                <div class="ui-grid-a">
+                    <div class="ui-block-a">
+                        <a href="#logPage" class="silver large awesome">
+                            <img class="menu-img" src="assets/image/menu/96-logs.png" />
+                            <p class="menu-btn-text">Logs</p>
+                        </a>
+                    </div>
+                    <div class="ui-block-b">
+                        <a href="#optionPage" class="silver large awesome">
+                            <img class="menu-img" src="assets/image/menu/19-option.png" />
+                            <p class="menu-btn-text">Options</p>
+                        </a>
+                    </div>
+                </div>
                     <div class="ui-grid-a">
                         <div class="ui-block-a">
-                            <a href="#recentPostPage" class="silver large awesome">
-                                <img class="menu-img" src="assets/image/menu/34-recent.png" />
-                                <p class="menu-btn-text">Recent posts</p>
-                            </a>
-                        </div>
-                        <div class="ui-block-b">
-                            <a href="#categoryPage" class="silver large awesome">
-                                <img class="menu-img" src="assets/image/menu/33-category.png" />
-                                <p class="menu-btn-text">Categories</p>
+                            <a href="#aboutPage" class="silver large awesome">
+                                <img class="menu-img" src="assets/image/menu/123-about.png" />
+                                <p class="menu-btn-text">About</p>
                             </a>
                         </div>
                     </div>
-                    <div class="ui-grid-a">
-                        <div class="ui-block-a">
-                            <a href="#tagPage" class="silver large awesome">
-                                <img class="menu-img" src="assets/image/menu/15-tags.png" />
-                                <p class="menu-btn-text">Tags</p>
-                            </a>
-                        </div>
-                        <div class="ui-block-b">
-                            <a href="#authorPage" class="silver large awesome">
-                                <img class="menu-img" src="assets/image/menu/112-author.png" />
-                                <p class="menu-btn-text">Authors</p>
-                            </a>
-                        </div>
-                    </div>
-                    <div class="ui-grid-a">
-                        <div class="ui-block-a">
-                            <a href="#logPage" class="silver large awesome">
-                                <img class="menu-img" src="assets/image/menu/96-logs.png" />
-                                <p class="menu-btn-text">Logs</p>
-                            </a>
-                        </div>
-                        <div class="ui-block-b">
-                            <a href="#optionPage" class="silver large awesome">
-                                <img class="menu-img" src="assets/image/menu/19-option.png" />
-                                <p class="menu-btn-text">Options</p>
-                            </a>
-                        </div>
-                    </div>
-                        <div class="ui-grid-a">
-                            <div class="ui-block-a">
-                                <a href="#aboutPage" class="silver large awesome">
-                                    <img class="menu-img" src="assets/image/menu/123-about.png" />
-                                    <p class="menu-btn-text">About</p>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
+                </div>
 
+            </div>
+        </div>
+
+        <!-- Recent posts page -->
+        <div align="center" id="recentPostPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Recent Posts</h1>
+            </div>
+            <div data-role="content">
+                <ul id="recentPosts" data-role="listview" data-theme="a"></ul>
+            </div>
+        </div>
+
+        <!-- Categories page -->
+        <div align="center" id="categoryPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Categories</h1>
+            </div>
+            <div data-role="content">
+                <ul id="categories" data-role="listview" data-theme="a"></ul>
+            </div>
+        </div>
+
+        <!-- Tags page -->
+        <div align="center" id="tagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Tags</h1>
+                <a href="#tagOptionPage" id="tagPageOptions" data-icon="gear" class="ui-btn-right">Options</a>
+            </div>
+            <div data-role="content">
+                <ul id="tags" data-role="listview" data-theme="a" data-divider-theme="a"></ul>
+            </div>
+        </div>
+
+        <div align="center" id="tagOptionPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Tags</h1>
+            </div>
+            <div data-role="content">
+                <div data-role="fieldcontain" data-theme="a">
+                    <label for="tag-list-filter-by" class="select">Filtrer par:</label>
+                    <select name="tag-list-filter-by" id="tag-list-filter-by" data-native-menu="false">
+                        <option value="1">Sort by post count</option>
+                        <option value="2">A-E</option>
+                        <option value="3">F-K</option>
+                        <option value="4">L-R</option>
+                        <option value="5">S-Z</option>
+                        <option value="6t">0-9</option>
+                        <option value="7">Other</option>
+                    </select>
                 </div>
             </div>
+        </div>
 
-            <!-- Recent posts page -->
-            <div align="center" id="recentPostPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Recent Posts</h1>
-                </div>
-                <div data-role="content">
-                    <ul id="recentPosts" data-role="listview" data-theme="a"></ul>
+        <!-- Authors page -->
+        <div align="center" id="authorPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Authors</h1>
+            </div>
+            <div data-role="content">
+                <ul id="authors" data-role="listview" data-theme="a"></ul>
+            </div>
+        </div>
+
+        <!-- Posts By Category page -->
+        <div align="center" id="postByCategoryPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Posts in '<span id="postByCategoryTitleCategory"></span>'</h1>
+                <div class="navbar" id="postByCategoryPageNav">
+                    <div class="navbar-left" id="postByCategoryPageNavPrev"><a href="#">Prev</a></div>
+                    <div class="navbar-right" id="postByCategoryPageNavNext"><a href="#">Next</a></div>
+                    <span class="navbar-title" id="postByCategoryPageNavTitle">Page - of -</span>
                 </div>
             </div>
+            <div data-role="content">
+                <ul id="postByCategory" data-role="listview">
+                </ul>
+            </div>
+        </div>
 
-            <!-- Categories page -->
-            <div align="center" id="categoryPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Categories</h1>
-                </div>
-                <div data-role="content">
-                    <ul id="categories" data-role="listview" data-theme="a"></ul>
+        <!-- Posts By Tag page -->
+        <div align="center" id="postByTagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Posts tagged '<span id="postByTagTitleTag"></span>'</h1>
+                <div class="navbar" id="postByTagPageNav">
+                    <div class="navbar-left" id="postByTagPageNavPrev"><a href="#">Prev</a></div>
+                    <div class="navbar-right" id="postByTagPageNavNext"><a href="#">Next</a></div>
+                    <span class="navbar-title" id="postByTagPageNavTitle">Page - of -</span>
                 </div>
             </div>
+            <div data-role="content">
+                <div data-role="content"><ul id="postByTagTmp" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul></div>
+            </div>
+        </div>
 
-            <!-- Tags page -->
-            <div align="center" id="tagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Tags</h1>
-                    <a href="#tagOptionPage" id="tagPageOptions" data-icon="gear" class="ui-btn-right">Options</a>
-                </div>
-                <div data-role="content">
-                    <ul id="tags" data-role="listview" data-theme="a" data-divider-theme="a"></ul>
+        <!-- Posts By Author page -->
+        <div align="center" id="postByAuthorPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1><span id="postByAuthorTitleAuthor"></span>'s posts</h1>
+                <div class="navbar" id="postByAuthorPageNav">
+                    <div class="navbar-left" id="postByAuthorPageNavPrev"><a href="#">Prev</a></div>
+                    <div class="navbar-right" id="postByAuthorPageNavNext"><a href="#">Next</a></div>
+                    <span class="navbar-title" id="postByAuthorPageNavTitle">Page - of -</span>
                 </div>
             </div>
-
-            <div align="center" id="tagOptionPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Tags</h1>
-                </div>
-                <div data-role="content">
-                    <div data-role="fieldcontain" data-theme="a">
-                        <label for="tag-list-filter-by" class="select">Filtrer par:</label>
-                        <select name="tag-list-filter-by" id="tag-list-filter-by" data-native-menu="false">
-                            <option value="1">Sort by post count</option>
-                            <option value="2">A-E</option>
-                            <option value="3">F-K</option>
-                            <option value="4">L-R</option>
-                            <option value="5">S-Z</option>
-                            <option value="6t">0-9</option>
-                            <option value="7">Other</option>
-                        </select>
-                    </div>
-                </div>
+            <div data-role="content">
+                <ul id="postByAuthor" data-role="listview"></ul>
             </div>
+        </div>
 
-            <!-- Authors page -->
-            <div align="center" id="authorPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Authors</h1>
-                </div>
-                <div data-role="content">
-                    <ul id="authors" data-role="listview" data-theme="a"></ul>
-                </div>
+        <!-- Post detail page -->
+        <div align="center" id="postDetailPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1 id="postDetailTitle">Post Details</h1>
+                <a id="postDetailUrl" href="#insightPage" data-theme="a" data-icon="arrow-r" class="ui-btn-right">View</a>
             </div>
-
-            <!-- Posts By Category page -->
-            <div align="center" id="postByCategoryPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Posts in '<span id="postByCategoryTitleCategory"></span>'</h1>
-                    <div class="navbar" id="postByCategoryPageNav">
-                        <div class="navbar-left" id="postByCategoryPageNavPrev"><a href="#">Prev</a></div>
-                        <div class="navbar-right" id="postByCategoryPageNavNext"><a href="#">Next</a></div>
-                        <span class="navbar-title" id="postByCategoryPageNavTitle">Page - of -</span>
-                    </div>
-                </div>
-                <div data-role="content">
-                    <ul id="postByCategory" data-role="listview">
-                    </ul>
-                </div>
-            </div>
-
-            <!-- Posts By Tag page -->
-            <div align="center" id="postByTagPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Posts tagged '<span id="postByTagTitleTag"></span>'</h1>
-                    <div class="navbar" id="postByTagPageNav">
-                        <div class="navbar-left" id="postByTagPageNavPrev"><a href="#">Prev</a></div>
-                        <div class="navbar-right" id="postByTagPageNavNext"><a href="#">Next</a></div>
-                        <span class="navbar-title" id="postByTagPageNavTitle">Page - of -</span>
-                    </div>
-                </div>
-                <div data-role="content">
-                    <div data-role="content"><ul id="postByTagTmp" data-role="listview" data-divider-theme="a">' + itemsContent + '</ul></div>
-                </div>
-            </div>
-
-            <!-- Posts By Author page -->
-            <div align="center" id="postByAuthorPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1><span id="postByAuthorTitleAuthor"></span>'s posts</h1>
-                    <div class="navbar" id="postByAuthorPageNav">
-                        <div class="navbar-left" id="postByAuthorPageNavPrev"><a href="#">Prev</a></div>
-                        <div class="navbar-right" id="postByAuthorPageNavNext"><a href="#">Next</a></div>
-                        <span class="navbar-title" id="postByAuthorPageNavTitle">Page - of -</span>
-                    </div>
-                </div>
-                <div data-role="content">
-                    <ul id="postByAuthor" data-role="listview"></ul>
-                </div>
-            </div>
-
-            <!-- Post detail page -->
-            <div align="center" id="postDetailPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1 id="postDetailTitle">Post Details</h1>
-                    <a id="postDetailUrl" href="#insightPage" data-theme="a" data-icon="arrow-r" class="ui-btn-right">View</a>
-                </div>
-                <div id="postContent" data-role="content" align="left">
-                    <div id="postAuthorDetails">
-                        <div id="postDetailDate"></div>
-                        <p>Article published by <span id="postDetailAuthor"></span></p>
-                     </div>
-                     <div id="postCategories">
-                        <p>Categories: <span id="postCategoriesItems" class="postCategories"></span></p>
-                    </div>
-                    <div id="postTags">
-                        <p>Tags: <span id="postTagsItems" class="postTags"></span></p>
-                    </div>
-                    <div id="postExcerpt">
-                        <p id="postExcerptTitle">Excerpt:</p>
-                        <p id="postExcerptContent"></p>
-                    </div>
-
-                    <div id="postComments">
-                        <p id="postCommentsTitle">Comments (<span id="postCommentsCount"></span>)</p>
-                        <div id="postCommentsList"></div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Author detail page -->
-            <div align="center" id="authorDetailPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1 id="authorName">Author Details</h1>
-                </div>
-                <div id="authorDetails" data-role="content">
-
-                </div>
-            </div>
-
-            <!-- Insight page -->
-            <div align="center" id="insightPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1 id="insightTitle">Insight</h1>
-                    <a id="insightUrl" href="#" data-theme="a" data-icon="arrow-r" class="ui-btn-right">View</a>
-                </div>
-                <div data-role="content">
-                    <div id="insightContent" align="left"></div>
-                </div>
-            </div>
-
-            <!-- About page -->
-            <div align="center" id="aboutPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>About</h1>
-                </div>
-                <div id="aboutHeader">
-                    <h1 id="logoAbout">
-                        <img src="assets/image/logo-xebia.png" alt="jQuery Mobile Framework" class="logo" />
-                    </h1>
-                </div>
-                <div data-role="content" data-theme="a">
-                    <p>Author: Alexis Kinsella</p>
-                    <p>Web site: <a href="http://blog.xebia.fr">http://blog.xebia.fr</a></p>
-                    <p>E-Mail : <a href="mailto:akinsella@xebia.fr">akinsella@xebia.fr</a></p>
-                    <br>
-                    <p><a href="#homePage">Back to home</a></p>
-                </div>
-            </div>
-
-            <!-- Option page -->
-            <div align="center" id="optionPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Option Page</h1>
-                </div>
-                <div id="optionHeader">
-                </div>
-                <div data-role="content">
-                    <div data-role="fieldcontain">
-                        <label for="slider2">Cache Data:</label>
-                        <select name="slider2" id="slider2" data-role="slider">
-                            <option value="off">No</option>
-                            <option value="on">Yes</option>
-                        </select>
-                    </div>
+            <div id="postContent" data-role="content" align="left">
+                <div id="postAuthorDetails">
+                    <div id="postDetailDate"></div>
+                    <p>Article published by <span id="postDetailAuthor"></span></p>
                  </div>
-            </div>
-
-            <!-- Log page -->
-            <div align="center" id="logPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
-                <div data-role="header" data-theme="a">
-                    <h1>Log Console</h1>
+                 <div id="postCategories">
+                    <p>Categories: <span id="postCategoriesItems" class="postCategories"></span></p>
                 </div>
-                <div id="logHeader">
+                <div id="postTags">
+                    <p>Tags: <span id="postTagsItems" class="postTags"></span></p>
                 </div>
-                <div data-role="content">
-                    <ul id="logs" data-role="listview"></ul>
-                 </div>
-            </div>
+                <div id="postExcerpt">
+                    <p id="postExcerptTitle">Excerpt:</p>
+                    <p id="postExcerptContent"></p>
+                </div>
 
+                <div id="postComments">
+                    <p id="postCommentsTitle">Comments (<span id="postCommentsCount"></span>)</p>
+                    <div id="postCommentsList"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Author detail page -->
+        <div align="center" id="authorDetailPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1 id="authorName">Author Details</h1>
+            </div>
+            <div id="authorDetails" data-role="content">
+
+            </div>
+        </div>
+
+        <!-- Insight page -->
+        <div align="center" id="insightPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1 id="insightTitle">Insight</h1>
+                <a id="insightUrl" href="#" data-theme="a" data-icon="arrow-r" class="ui-btn-right">View</a>
+            </div>
+            <div data-role="content">
+                <div id="insightContent" align="left"></div>
+            </div>
+        </div>
+
+        <!-- About page -->
+        <div align="center" id="aboutPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>About</h1>
+            </div>
+            <div id="aboutHeader">
+                <h1 id="logoAbout">
+                    <img src="assets/image/logo-xebia.png" alt="jQuery Mobile Framework" class="logo" />
+                </h1>
+            </div>
+            <div data-role="content" data-theme="a">
+                <p>Author: Alexis Kinsella</p>
+                <p>Web site: <a href="http://blog.xebia.fr">http://blog.xebia.fr</a></p>
+                <p>E-Mail : <a href="mailto:akinsella@xebia.fr">akinsella@xebia.fr</a></p>
+                <br>
+                <p><a href="#homePage">Back to home</a></p>
+            </div>
+        </div>
+
+        <!-- Option page -->
+        <div align="center" id="optionPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Option Page</h1>
+            </div>
+            <div id="optionHeader">
+            </div>
+            <div data-role="content">
+                <div data-role="fieldcontain">
+                    <label for="slider2">Cache Data:</label>
+                    <select name="slider2" id="slider2" data-role="slider">
+                        <option value="off">No</option>
+                        <option value="on">Yes</option>
+                    </select>
+                </div>
+             </div>
+        </div>
+
+        <!-- Log page -->
+        <div align="center" id="logPage" data-role="page" data-theme="a" class="page" data-add-back-btn="true">
+            <div data-role="header" data-theme="a">
+                <h1>Log Console</h1>
+            </div>
+            <div id="logHeader">
+            </div>
+            <div data-role="content">
+                <ul id="logs" data-role="listview"></ul>
+             </div>
+        </div>
     </body>
 
 </html>

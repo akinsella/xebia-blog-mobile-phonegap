@@ -1,0 +1,18 @@
+<%
+    var currentFirstLetter = '';
+    _.each(tags, function(tag) {
+        var firstLetter = tag.get('title').substr(0, 1).toUpperCase();
+        var currentFirstLetterChanged = firstLetter != currentFirstLetter;
+            currentFirstLetter = firstLetter;
+        if (currentFirstLetterChanged) { %>
+            <li data-role="list-divider"><%= currentFirstLetter %></li>
+<%      }
+%>
+        <li>
+            <a href="index.html?tag=<%= tag.get('id') %>#postByTagPage" rel="external">
+                <h3><%= tag.get('title') %></h3><span class="ui-li-count"><%= tag.get('post_count') %></span>
+            </a>
+        </li>
+<%
+    });
+%>

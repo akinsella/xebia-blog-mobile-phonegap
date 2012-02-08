@@ -1,17 +1,28 @@
-define( ['backbone', 'views/appview', 'routers/workspace', 'core', 'utils'],
-    function( Backbone, AppView, Workspace, core, utils ) {
+define( ['backbone', 'views/appview', 'routers/router', 'core', 'utils'],
+    function( Backbone, AppView, Router, core, utils ) {
+
+    console.log("Loaded app.js");
 
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
 
     $(function() {
 
-        window.xebiaMobile = window.xebiaMobile || {
-            views: {
+        console.log("jQuery is loaded");
+
+        window.appMobile = window.appMobile || {
+            models: {
                 appview: new AppView()
+
+            },
+            collections: {
+
+            },
+            views: {
+
             },
             routers: {
-                workspace: new Workspace()
+                router: new Router()
             },
             core: core,
             utils: utils,
@@ -20,7 +31,12 @@ define( ['backbone', 'views/appview', 'routers/workspace', 'core', 'utils'],
             }
         };
 
+
+
         Backbone.history.start();
+
     });
+
+    core.onMobileInit();
 
 });

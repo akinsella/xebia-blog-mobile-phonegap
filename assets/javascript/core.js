@@ -1,4 +1,7 @@
-define( ['jquery', 'utils', 'underscore', 'lawnchair' ], function( $, utils, _, lawnchair ) {
+define( ['backbone', 'jquery', 'underscore', 'utils', 'lawnchair', 'models/TagModel'],
+    function(Backbone, $, _, utils, lawnchair, tagModel) {
+
+        console.log("Loaded core.js");
 
     // ******************************************************************************
     // * Constants
@@ -34,8 +37,11 @@ define( ['jquery', 'utils', 'underscore', 'lawnchair' ], function( $, utils, _, 
     // ******************************************************************************
 
     core.onMobileInit = function() {
+        console.log("Loading on mobile init");
 
         $.mobile.defaultPageTransition = 'fade';
+//        $.mobile.hashListeningEnabled = false;
+//        $.mobile.pushStateEnabled = false;
 
         $('#homePage').live('pageshow', function(event, ui) { core.onHomePageShow(); });
         $('#recentPostPage').live('pageshow', function(event, ui){ core.onRecentPostPageShow(); });
@@ -45,6 +51,7 @@ define( ['jquery', 'utils', 'underscore', 'lawnchair' ], function( $, utils, _, 
         $('#authorPage').live('pagebeforeshow', function(event, ui){ core.onAuthorPageBeforeShow(); });
         $('#logPage').live('pageshow', function(event, ui) { core.onLogPageShow(); });
         $('#tagOptionPage').live('pageshow', function(event, ui){ core.onTagOptionPageShow(); });
+        $('#tagPage').live('pageinit', function(event, ui){ core.onTagPageInit(); });
         $('#tagPage').live('pageshow', function(event, ui){ core.onTagPageShow(); });
         $('#tagPage').live('pagebeforeshow', function(event, ui){ core.onTagPageBeforeShow(); });
         $('#postDetailPage').live('pageshow', function(event, ui) { core.onPostDetailPageShow(); });
@@ -234,17 +241,28 @@ define( ['jquery', 'utils', 'underscore', 'lawnchair' ], function( $, utils, _, 
         utils.info("Loading tag option page");
     };
 
+    core.onTagPageInit = function() {
+        console.log("Init Tag Page");
+        tagModel.initTagData();
+    };
+
     core.onTagPageShow = function() {
-        utils.loadContent( '#tags',
-            'tags',
-            utils.getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'),
-            function(data) { return core.buildHtmlTagsContent(core.selectMoreReadTags(data, MAX_VIEW_ITEMS), false) },
-            function(data) { return data.tags },
-            options);
+        console.log("Show tag Page");
+//        utils.loadContent( '#tags',
+//            'tags',
+//            utils.getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'),
+//            function(entries) {
+//                var tagCollection = new TagCollection();
+//                _.each(entries, function(entry) { tagCollection.add(new TagEntry(entry)); });
+//
+//                return core.buildHtmlTagsContent(core.selectMoreReadTags(tagCollection, MAX_VIEW_ITEMS), false)
+//            },
+//            function(data) { return data.tags },
+//            options);
     };
 
     core.onAuthorPageBeforeShow = function() {
-        $("#authors").empty();
+//        $("#authors").empty();
     };
 
     core.onAuthorPageShow = function() {
@@ -261,7 +279,7 @@ define( ['jquery', 'utils', 'underscore', 'lawnchair' ], function( $, utils, _, 
     };
 
     core.onLogPageShow = function() {
-        loadLogContent('#logs');
+        core.loadLogContent('#logs');
     };
 
 

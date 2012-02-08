@@ -77,13 +77,13 @@ define( ['jquery' ], function( $ ) {
     utils.loadFromUrl = function(dbKey, url, onSuccess) {
         var start = new Date();
         utils.info("Start loading " + dbKey + " content: " + utils.showInterval(start) );
-        $.getJSON( url, function( data ) {
+        $.when($.ajax(url, { dataType: "json" })).then(function(data) {
             utils.info("Loaded Json " + dbKey + " content: " + utils.showInterval(start));
             onSuccess(data);
         });
     };
 
-    utils.updateTagListUI = function(data, element, onSuccess, itemsContentBuilder) {
+    utils.updateListUI = function(data, element, onSuccess, itemsContentBuilder) {
         var start = new Date();
 
         utils.info("Append content to HTML: " + utils.showInterval(start));
@@ -118,7 +118,7 @@ define( ['jquery' ], function( $ ) {
         };
 
         var onDataLoadedFromDb = function(data) {
-            utils.updateTagListUI(dataAccessor(data), element, onContentLoaded, itemsContentBuilder);
+            utils.updateListUI(dataAccessor(data), element, onContentLoaded, itemsContentBuilder);
         };
 
         var onLoadDataFromUrl = function() {
@@ -186,7 +186,7 @@ define( ['jquery' ], function( $ ) {
 
     utils.getFullUrl = function(relativeUrl) {
         var fullUrl =  JSON_API_BASE_URL + relativeUrl;
-        utils.info(fullUrl);
+        utils.info("Url built: " + fullUrl);
         return fullUrl;
     };
 

@@ -1,6 +1,7 @@
 require.config({
     paths: {
-        'text':              'javascript/lib/require/require.text-1.0.5',
+        'text':              'javascript/lib/require/require.text-1.0.2',
+        'order':              'javascript/lib/require/require.order-1.0.5',
         'jquery':            'javascript/lib/jquery/jquery-1.7.1',
         'backbone':          'javascript/lib/backbone/backbone-0.9.1',
         'underscore':        'javascript/lib/underscore/underscore-1.3.1',
@@ -15,19 +16,18 @@ require.config({
 });
 
 require(['require', 'backbone', 'jquery', 'underscore' ], function( require, Backbone, $, _ ) {
-    // framework loaded
-    require( ['require', 'jquerymobile', 'date', 'lawnchair', 'core', 'app'], function(require, jqm, date, lawnchair, core, app) {
 
-         // Global overrides to disable hashchange listening
-         // (as opposed to using urlHistory.listeningEnabled)
-         // This makes it easier to focus on using Backbone's own
-         // routing:
+    console.log("Loaded main.js");
 
-        $.mobile.hashListeningEnabled = false;
-        $.mobile.pushStateEnabled = false;
-        $.mobile.page.prototype.options.degradeInputs.date = true;
+    $(document).bind("mobileinit", function() {
 
-        core.onMobileInit();
+        console.log("jqm is loaded");
+//        document.getElementsByTagName('html')[0].style.display="block";
+    });
+
+    require(['jquerymobile', 'app'], function(jqm, app) {
+        console.log("Loading jqm & app");
+
     });
 
 });

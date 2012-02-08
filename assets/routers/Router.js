@@ -1,4 +1,7 @@
-define( ['jquery', 'backbone'], function( $, Backbone ) {
+define( ['jquery', 'backbone'],
+    function( $, Backbone ) {
+
+    console.log("Loaded router.js");
 
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
@@ -6,7 +9,7 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
     return Backbone.Router.extend( {
         bookmarkMode:false,
         routes: {
-            "tag/list":      "tag",        // #tag/list
+            "tagPage":       "tag",        // #tagPage
             "tag/:id":       "tag",        // #tag/129
             "author/list":   "author",     // #author/list
             "author/:id":    "author",     // #author/41
@@ -18,23 +21,23 @@ define( ['jquery', 'backbone'], function( $, Backbone ) {
         },
         tag: function() {
             this.bookmarkMode = true;
-            xebiaMobile.utils.changePage( "#tagPage", "fade", false, false );
+            appMobile.utils.changePage( "#tagPage", "fade", false, false );
         },
         category: function() {
             this.bookmarkMode = true;
-            xebiaMobile.utils.changePage( "#categoryPage", "fade", false, false );
+            appMobile.utils.changePage( "#categoryPage", "fade", false, false );
         },
         author: function () {
             this.bookmarkMode = true;
-            xebiaMobile.utils.changePage( "#authorPage", "fade", false, false );
+            appMobile.utils.changePage( "#authorPage", "fade", false, false );
         },
         options: function() {
             this.bookmarkMode = true;
-            xebiaMobile.utils.changePage( "#optionPage", "fade", false, false );
+            appMobile.utils.changePage( "#optionPage", "fade", false, false );
         },
         root: function() {
             this.bookmarkMode = true;
-            xebiaMobile.utils.changePage( "#homePage", "fade", false, false );
+            appMobile.utils.changePage( "#homePage", "fade", false, false );
         }
     } );
 

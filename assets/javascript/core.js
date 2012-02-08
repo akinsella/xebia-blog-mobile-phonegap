@@ -1,5 +1,5 @@
-define( ['backbone', 'jquery', 'underscore', 'utils', 'lawnchair', 'models/TagModel'],
-    function(Backbone, $, _, utils, lawnchair, tagModel) {
+define( [ 'utils', 'lawnchair', 'models/TagModel' ],
+    function( utils, lawnchair, tagModel ) {
 
         console.log("Loaded core.js");
 
@@ -38,28 +38,6 @@ define( ['backbone', 'jquery', 'underscore', 'utils', 'lawnchair', 'models/TagMo
 
     core.onMobileInit = function() {
         console.log("Loading on mobile init");
-
-        $.mobile.defaultPageTransition = 'fade';
-//        $.mobile.hashListeningEnabled = false;
-//        $.mobile.pushStateEnabled = false;
-
-        $('#homePage').live('pageshow', function(event, ui) { core.onHomePageShow(); });
-        $('#recentPostPage').live('pageshow', function(event, ui){ core.onRecentPostPageShow(); });
-        $('#categoryPage').live('pageshow', function(event, ui){ core.onCategoryPageShow(); });
-        $('#categoryPage').live('pagebeforeshow', function(event, ui){ core.onCategoryPageBeforeShow(); });
-        $('#authorPage').live('pageshow', function(event, ui){ core.onAuthorPageShow(); });
-        $('#authorPage').live('pagebeforeshow', function(event, ui){ core.onAuthorPageBeforeShow(); });
-        $('#logPage').live('pageshow', function(event, ui) { core.onLogPageShow(); });
-        $('#tagOptionPage').live('pageshow', function(event, ui){ core.onTagOptionPageShow(); });
-        $('#tagPage').live('pageinit', function(event, ui){ core.onTagPageInit(); });
-        $('#tagPage').live('pageshow', function(event, ui){ core.onTagPageShow(); });
-        $('#tagPage').live('pagebeforeshow', function(event, ui){ core.onTagPageBeforeShow(); });
-        $('#postDetailPage').live('pageshow', function(event, ui) { core.onPostDetailPageShow(); });
-        $('#postByAuthorPage').live('pageshow', function(event, ui) { core.onPostByAuthorPageShow(); });
-        $('#postByTagPage').live('pageshow', function(event, ui) { core.onPostByTagPageShow(); });
-        $('#postByCategoryPage').live('pageshow', function(event, ui) { core.onPostByCategoryPageShow(); });
-        $('#insightPage').live('pageshow', function(event, ui) { core.onInsightPageShow(); });
-
 
         db = Lawnchair({name: dbName}, function(e) {
             utils.info('Storage open');

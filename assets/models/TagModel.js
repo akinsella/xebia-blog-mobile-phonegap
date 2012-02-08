@@ -1,8 +1,10 @@
-define( ['backbone', 'utils', 'jquery', 'underscore', 'app', 'text!templates/tag/list.html'],
-    function( Backbone, utils, $, _, app, tagListTemplate ) {
+define( [ 'utils', 'text!templates/tag/list.html'],
+    function( utils, tagListTemplate ) {
 
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
+
+    console.log("Loading TagModel.js");
 
     var tagModel = {
         models: {},
@@ -48,15 +50,6 @@ define( ['backbone', 'utils', 'jquery', 'underscore', 'app', 'text!templates/tag
         }
 
     });
-
-    tagModel.initTagData = function() {
-        console.log("Loading Tag View");
-        tagModel.entries = new tagModel.collections.TagCollection();
-        tagModel.view = new tagModel.views.TagListView({collection: tagModel.entries});
-        tagModel.view.render();
-        console.log("Fetch Tag Data");
-        tagModel.entries.fetch();
-    };
 
     return tagModel;
 

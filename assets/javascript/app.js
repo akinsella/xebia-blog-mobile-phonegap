@@ -1,42 +1,25 @@
-define( ['backbone', 'views/appview', 'routers/router', 'core', 'utils'],
-    function( Backbone, AppView, Router, core, utils ) {
+define( ['router', 'core', 'utils'],
+    function( router, core, utils ) {
 
     console.log("Loaded app.js");
 
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
-
-    $(function() {
-
-        console.log("jQuery is loaded");
-
+    var init = function () {
         window.appMobile = window.appMobile || {
-            models: {
-                appview: new AppView()
-
-            },
-            collections: {
-
-            },
-            views: {
-
-            },
-            routers: {
-                router: new Router()
-            },
+            models: {},
+            collections: {},
+            views: {},
+            router: router,
             core: core,
-            utils: utils,
-            defaults: {
-
-            }
+            utils: utils
         };
 
+        core.onMobileInit();
 
+    };
 
-        Backbone.history.start();
+    return { init : init };
 
-    });
-
-    core.onMobileInit();
 
 });

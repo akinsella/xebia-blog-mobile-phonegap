@@ -29,6 +29,8 @@ require(['require', 'jquery', 'order!underscore', 'order!backbone' ],
         global.Backbone = global.Backbone || Backbone;
         console.log('core libs loaded');
 
+        $.mobile = $.mobile || {};
+
     //    console.log("Loaded main.js");
         console.log("Loading main.js");
 

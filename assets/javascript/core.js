@@ -1,5 +1,5 @@
-define( [ 'utils', 'lawnchair', 'models/TagModel' ],
-    function( utils, lawnchair, tagModel ) {
+define( [ 'utils', 'lawnchair' ],
+    function( utils, lawnchair ) {
 
         console.log("Loaded core.js");
 
@@ -211,37 +211,6 @@ define( [ 'utils', 'lawnchair', 'models/TagModel' ],
         core.loadCategoriesContent('#categories', utils.getFullUrl('/get_category_index/?exclude=slug,description,parent&callback=?'));
     };
 
-    core.onTagPageBeforeShow = function() {
-        $("#tags").empty();
-    };
-
-    core.onTagOptionPageShow = function() {
-        utils.info("Loading tag option page");
-    };
-
-    core.onTagPageInit = function() {
-        console.log("Init Tag Page");
-        tagModel.initTagData();
-    };
-
-    core.onTagPageShow = function() {
-        console.log("Show tag Page");
-//        utils.loadContent( '#tags',
-//            'tags',
-//            utils.getFullUrl('/get_tag_index/?exclude=slug,description,parent&callback=?'),
-//            function(entries) {
-//                var tagCollection = new TagCollection();
-//                _.each(entries, function(entry) { tagCollection.add(new TagEntry(entry)); });
-//
-//                return core.buildHtmlTagsContent(core.selectMoreReadTags(tagCollection, MAX_VIEW_ITEMS), false)
-//            },
-//            function(data) { return data.tags },
-//            options);
-    };
-
-    core.onAuthorPageBeforeShow = function() {
-//        $("#authors").empty();
-    };
 
     core.onAuthorPageShow = function() {
         core.loadAuthorsContent('#authors', utils.getFullUrl('/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?'));

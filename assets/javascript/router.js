@@ -1,5 +1,5 @@
-define( [ 'models/TagModel' ],
-    function( tagModel ) {
+define( [ 'models/CollectionModel', 'text!templates/tag/collection.html' ],
+    function( collectionModel, tagCollectionTpl ) {
 
     console.log("Loaded router.js");
 
@@ -7,23 +7,31 @@ define( [ 'models/TagModel' ],
     "use strict";
 
     return new $.mobile.Router({
-        "#tagPage" : { handler : "tag", events: "bs" }
+        "#tagPage" : { handler : "onBeforePageShow", events: "bs" }
     },
     {
-        tag: function(type, match, ui) {
+        onBeforePageShow: function(type, match, ui) {
+            var modelType = "Tag";
             if (!match) {
                 return;
             }
-            if (!tagModel.view) {
-                console.log("Loading Tag View");
-                tagModel.view = new tagModel.views.TagListView({ collection : new tagModel.collections.TagCollection() });
+            if (!collectionModel.views.tagView) {
+                console.log("Loading " + modelType + " View");
+                collectionModel.views.tagView = new collectionModel.EntryListView({
+                    fetchUrl: '/get_tag_index/?exclude=slug,description,parent&callback=?',
+                    el: "#tags",
+                    collectionTemplate: tagCollectionTpl,
+                    parse: function(data) {
+                        return data.tags;
+                    }
+                });
             }
-            if (tagModel.view.collection.length === 0) {
-                console.log("Fetch Tag Data");
-                tagModel.view.collection.fetch();
+            if (collectionModel.views.tagView.collection.length === 0) {
+                console.log("Fetch " + modelType + " Data");
+                collectionModel.views.tagView.collection.fetch();
             }
             else {
-                tagModel.view.render();
+                collectionModel.views.tagView.render();
             }
         },
         category: function() {

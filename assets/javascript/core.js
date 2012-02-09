@@ -1,7 +1,10 @@
 define( [ 'utils', 'lawnchair' ],
     function( utils, lawnchair ) {
 
-        console.log("Loaded core.js");
+    // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
+    "use strict";
+
+    console.log("Loaded core.js");
 
     // ******************************************************************************
     // * Constants
@@ -14,8 +17,6 @@ define( [ 'utils', 'lawnchair' ],
     var MAX_VIEW_ITEMS = 100;
 
 
-    // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
-    //"use strict";
     var core = {};
 
     // ******************************************************************************
@@ -49,10 +50,6 @@ define( [ 'utils', 'lawnchair' ],
                 db.save({ key: "options", value: options });
             }
         });
-    };
-
-    core.onHomePageShow = function() {
-        // Write some code
     };
 
     core.onRecentPostPageShow = function() {
@@ -203,19 +200,6 @@ define( [ 'utils', 'lawnchair' ],
             });
     };
 
-    core.onCategoryPageBeforeShow = function() {
-        $("#categories").empty();
-    };
-
-    core.onCategoryPageShow = function() {
-        core.loadCategoriesContent('#categories', utils.getFullUrl('/get_category_index/?exclude=slug,description,parent&callback=?'));
-    };
-
-
-    core.onAuthorPageShow = function() {
-        core.loadAuthorsContent('#authors', utils.getFullUrl('/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?'));
-    };
-
     core.onPostDetailPageShow = function() {
         var postId = utils.getParameterByName("post");
         core.loadPostDetailContent(utils.getFullUrl('/get_post/?post_id=' + postId + '&callback=?'));
@@ -251,7 +235,7 @@ define( [ 'utils', 'lawnchair' ],
 
     core.selectMoreReadTags = function(tags, max) {
         return _.sortBy(tags, function(tag) { return tag.post_count; }).reverse().slice(0, max);
-    }
+    };
 
     core.buildHtmlTagsContent = function(tags, dividers) {
         var start = new Date();
@@ -278,44 +262,6 @@ define( [ 'utils', 'lawnchair' ],
     // ******************************************************************************
     // * Categories
     // ******************************************************************************
-
-     core.loadCategoriesContent = function(element, url) {
-        $.mobile.showPageLoadingMsg();
-        $.getJSON( url, function( data ) {
-            $(element).empty();
-            var itemsContent = '';
-            var categories = _.sortBy(data.categories, function(category){ return category.name; });
-            $.each(categories, function(i, category) {
-                var title = '<h3>' + category.title + '</h3>';
-                var subtitle = '<p><em>' + category.description + '</em></p>';
-                var bubble = '<span class="ui-li-count">' + category.post_count + '</span>';
-                var link = 'index.html?category=' + category.id + '#postByCategoryPage';
-                itemsContent += '<li><a href="' + link + '" rel="external">' + title + subtitle + bubble + '</a></li>';
-            });
-
-            $(element).append(itemsContent);
-            $(element).listview("refresh");
-            $.mobile.hidePageLoadingMsg();
-        });
-    };
-
-    core.loadAuthorsContent = function(element, url) {
-        $.mobile.showPageLoadingMsg();
-        $.getJSON( url, function( data ) {
-            $(element).empty();
-            var itemsContent = '';
-            var authors = _.sortBy(data.authors, function(author){ return author.name; });
-            $.each(authors, function(i, author) {
-                var title = '<h3>' + author.name + '</h3>';
-                var link = 'index.html?author=' + author.id + '#postByAuthorPage';
-                itemsContent += '<li><a href="' + link + '" rel="external">' + title + '</a></li>';
-            });
-
-            $(element).append(itemsContent);
-            $(element).listview("refresh");
-            $.mobile.hidePageLoadingMsg();
-        });
-    };
 
     core.loadPostsContent = function(element, url, callback) {
         $.mobile.showPageLoadingMsg();
@@ -348,7 +294,7 @@ define( [ 'utils', 'lawnchair' ],
             var post = data.post;
 
             store('insightTitle', post.title);
-            store('insightContent', stripTags(post.content));
+            store('insightContent', utils.stripTags(post.content));
             store('insightUrl', post.url);
 
              /* Set post title */

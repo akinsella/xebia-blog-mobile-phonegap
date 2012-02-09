@@ -7,10 +7,10 @@ define( [ 'models/CollectionModel', 'text!templates/tag/collection.html' ],
     "use strict";
 
     return new $.mobile.Router({
-        "#tagPage" : { handler : "onBeforePageShow", events: "bs" }
+        "#tagPage" : { handler : "onBeforeTagPageShow", events: "bs" }
     },
     {
-        onBeforePageShow: function(type, match, ui) {
+        onBeforeTagPageShow: function(type, match, ui) {
             var modelType = "Tag";
             if (!match) {
                 return;

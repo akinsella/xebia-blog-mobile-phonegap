@@ -3,6 +3,37 @@ define( [ 'models/CollectionModel', 'text!templates/tag/collection.html', 'text!
 
     console.log("Loaded router.js");
 
+//    var options = {
+//        name: "Authors",
+//        view: "author",
+//        url: '/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?',
+//        el: "#authors",
+//        template: authorCollectionTpl,
+//        parse: function(data) { return data.authors; }
+//    };
+    var onBeforeListPageShow = function(type, match, ui, options) {
+        if (!match) {
+            return;
+        }
+        if (!collectionModel.views[options.view]) {
+            console.log("Loading " + name + " View");
+            collectionModel.views[options.view] = new collectionModel.EntryListView({
+                fetchUrl: options.url,
+                el: options.el,
+                collectionTemplate: options.template,
+                parse: options.parse
+            });
+        }
+        if (collectionModel.views[options.view].collection.length === 0) {
+            console.log("Fetch " + name + " Data");
+            collectionModel.views[options.view].collection.fetch();
+        }
+        else {
+            collectionModel.views[options.view].render();
+        }
+    };
+
+
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
 
@@ -13,76 +44,25 @@ define( [ 'models/CollectionModel', 'text!templates/tag/collection.html', 'text!
     },
     {
         onBeforeTagPageShow: function(type, match, ui) {
-            var modelType = "Tag";
-            if (!match) {
-                return;
-            }
-            if (!collectionModel.views.tagView) {
-                console.log("Loading " + modelType + " View");
-                collectionModel.views.tagView = new collectionModel.EntryListView({
-                    fetchUrl: '/get_tag_index/?exclude=slug,description,parent&callback=?',
-                    el: "#tags",
-                    collectionTemplate: tagCollectionTpl,
-                    parse: function(data) {
-                        return data.tags;
-                    }
-                });
-            }
-            if (collectionModel.views.tagView.collection.length === 0) {
-                console.log("Fetch " + modelType + " Data");
-                collectionModel.views.tagView.collection.fetch();
-            }
-            else {
-                collectionModel.views.tagView.render();
-            }
+            onBeforeListPageShow(type, match, ui, {
+                title: "Tags", el: "#tags", view: "tags", template: tagCollectionTpl,
+                url: '/get_tag_index/?exclude=slug,description,parent&callback=?',
+                parse: function(data) { return data.tags; }
+            });
         },
         onBeforeCategoryPageShow: function(type, match, ui) {
-            var modelType = "Categories";
-            if (!match) {
-                return;
-            }
-            if (!collectionModel.views.categoryView) {
-                console.log("Loading " + modelType + " View");
-                collectionModel.views.categoryView = new collectionModel.EntryListView({
-                    fetchUrl: '/get_category_index/?exclude=slug,description,parent&callback=?',
-                    el: "#categories",
-                    collectionTemplate: categoryCollectionTpl,
-                    parse: function(data) {
-                        return data.categories;
-                    }
-                });
-            }
-            if (collectionModel.views.categoryView.collection.length === 0) {
-                console.log("Fetch " + modelType + " Data");
-                collectionModel.views.categoryView.collection.fetch();
-            }
-            else {
-                collectionModel.views.categoryView.render();
-            }
+            onBeforeListPageShow(type, match, ui, {
+                title: "Categories", el: "#categories", view: "categories", template: categoryCollectionTpl,
+                url: '/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?',
+                parse: function(data) { return data.categories; }
+            });
         },
         onBeforeAuthorPageShow: function(type, match, ui) {
-            var modelType = "Authors";
-            if (!match) {
-                return;
-            }
-            if (!collectionModel.views.authorView) {
-                console.log("Loading " + modelType + " View");
-                collectionModel.views.authorView = new collectionModel.EntryListView({
-                    fetchUrl: '/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?',
-                    el: "#authors",
-                    collectionTemplate: authorCollectionTpl,
-                    parse: function(data) {
-                        return data.authors;
-                    }
-                });
-            }
-            if (collectionModel.views.authorView.collection.length === 0) {
-                console.log("Fetch " + modelType + " Data");
-                collectionModel.views.authorView.collection.fetch();
-            }
-            else {
-                collectionModel.views.authorView.render();
-            }
+            onBeforeListPageShow(type, match, ui, {
+                title: "Authors", el: "#authors", view: "authors", template: authorCollectionTpl,
+                url: '/get_author_index/?exclude=slug,description,parent,nickname,first_name,last_name,url&callback=?',
+                parse: function(data) { return data.authors; }
+            });
         },
         options: function() {
             appMobile.utils.changePage( "#optionPage", "fade", false, false );

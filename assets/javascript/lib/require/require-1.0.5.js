@@ -169,6 +169,7 @@ var requirejs, require, define;
      * with the standard context.
      */
     function newContext(contextName) {
+        console.log("Creating context : " + contextName);
         var context, resume,
             config = {
                 waitSeconds: 7,
@@ -1764,6 +1765,7 @@ var requirejs, require, define;
      * @private
      */
     req.execCb = function (name, callback, args, exports) {
+//        console.log("[require] name: " + name + ", args: " + args + ", exports: " + exports);
         return callback.apply(exports, args);
     };
 

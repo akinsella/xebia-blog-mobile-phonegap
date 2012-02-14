@@ -4,8 +4,8 @@ define( [ ], function( ) {
     //"use strict";
     var utils = {};
 
-    /*    var JSON_API_BASE_URL = 'http://192.168.0.101/wordpress/api'; */
-    var JSON_API_BASE_URL = 'http://blog.xebia.fr/wp-json-api';
+    var JSON_API_BASE_URL = 'http://localhost';
+//    var JSON_API_BASE_URL = 'http://blog.xebia.fr';
 
     var logContent = new Array();
 
@@ -185,9 +185,7 @@ define( [ ], function( ) {
     };
 
     utils.getFullUrl = function(relativeUrl) {
-        var fullUrl =  JSON_API_BASE_URL + relativeUrl;
-        utils.info("Url built: " + fullUrl);
-        return fullUrl;
+        return JSON_API_BASE_URL + "/?" + relativeUrl;
     };
 
     utils.getMilliSeconds = function() {
@@ -235,6 +233,7 @@ define( [ ], function( ) {
     utils.store = function(key, content) {
         return localStorage.setItem(key, content);
     };
+
 
     return utils;
 });

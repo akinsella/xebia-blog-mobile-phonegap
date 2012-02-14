@@ -29,19 +29,16 @@ require(['require', 'jquery', 'order!underscore', 'order!backbone' ],
         global.Backbone = global.Backbone || Backbone;
         console.log('core libs loaded');
 
-        $.mobile = $.mobile || {};
-
     //    console.log("Loaded main.js");
         console.log("Loading main.js");
 
         $(document).bind("mobileinit", function() {
 
-            $.mobile.defaultPageTransition = 'fade';
-    //        $.mobile.hashListeningEnabled = false;
-            $.mobile.pushStateEnabled = false;
-    //        $.mobile.autoInitializePage = false;
+            console.log("[mobileinit] main.js");
 
-            $.mobile.jqmRouter = {};
+            $.mobile.defaultPageTransition = 'fade';
+
+            $.mobile.jqmRouter = $.mobile.jqmRouter || {};
             $.mobile.jqmRouter.fixFirstPageDataUrl = true;
             $.mobile.jqmRouter.firstPageDataUrl = "index.html";
 
@@ -51,7 +48,7 @@ require(['require', 'jquery', 'order!underscore', 'order!backbone' ],
         });
 
 
-        require(['require', 'jqmr', 'order!jqm', 'order!app'],
+        require(['require', 'order!jqmr', 'order!jqm', 'order!app'],
             function (require) {
                 console.log("Loading jqm, jqmr, app");
                 require('app').init();

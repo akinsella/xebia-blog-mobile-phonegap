@@ -4,7 +4,7 @@ define( [ 'utils'],
     // Using ECMAScript 5 strict mode during development. By default r.js will ignore that.
     "use strict";
 
-    console.log("Loading CollectionModel.js");
+    console.log("Loading model collection.js");
 
     var collectionModel = {
         views: {}
@@ -17,7 +17,13 @@ define( [ 'utils'],
         initialize: function(models, options) {
             console.log("Initializing Entry Collection");
             this.url = options.url;
-            this.parse = options.parse;
+            this.parse = function(data) {
+                if (options.beforeParse) {
+                    options.beforeParse(data);
+                }
+                return options.parse ? options.parse(data) : data;
+            };
+            this.sync = options.sync;
         }
     });
 
@@ -26,8 +32,10 @@ define( [ 'utils'],
             console.log("Initializing Entry List View");
             this.el = $(this.options.el);
             this.collection = new collectionModel.EntryCollection([], {
-                url: utils.getFullUrl(this.options.fetchUrl),
-                parse : this.options.parse
+                url: this.options.fetchUrl,
+                parse: this.options.parse,
+                sync: this.options.sync,
+                beforeParse: this.options.beforeParse
             });
             this.collection.bind('reset', this.render, this);
             this.collection.bind('add', this.add, this);

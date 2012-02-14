@@ -49,21 +49,21 @@
    .silver.awesome:hover						    { background-color: #FBFBFB; }
 
 
-.navbar {
+.page-navbar {
     background: #ffffff;
     padding: 10px;
     text-shadow: none;
 }
 
-.navbar-left {
+.page-navbar-left {
     float: left;
 }
 
-.navbar-title {
+.page-navbar-title {
     color: #552255;
 }
 
-.navbar-right {
+.page-navbar-right {
     float: right;
 }
 

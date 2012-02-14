@@ -11,6 +11,8 @@
 
 $(document).bind("mobileinit",function(){
 
+    console.log("[mobileinit] jqmr.js");
+
 	/* supports the following configurations:
 		$.mobile.jqmRouter.fixFirstPageDataUrl=true
 		$.mobile.jqmRouter.firstPageDataUrl="index.html"
@@ -37,6 +39,7 @@ $(document).bind("mobileinit",function(){
 	var previousUrl=null, nextUrl=null;
 
 	$(document).bind("pagebeforechange", function( e, data ) {
+
 		// We only want to handle changePage() calls where the caller is
 		// asking us to load a page by URL.
 		if ( typeof data.toPage === "string" ) {
@@ -69,6 +72,10 @@ $(document).bind("mobileinit",function(){
 				e.preventDefault();
 			}
 		}
+//        else {
+//            previousUrl=nextUrl;
+//            nextUrl=$.mobile.path.parseUrl(data.toPage[0].baseURI + "#" + data.toPage[0].dataset.url);
+//        }
 	});
 
 
@@ -93,6 +100,7 @@ $(document).bind("mobileinit",function(){
 	}
 
 	$.mobile.Router=function(userRoutes,userHandlers,conf){
+        console.log("[jqmr]" + this);
 		/* userRoutes format:
 			{
 				"regexp": "function name", // defaults to jqm pagebeforeshow event
